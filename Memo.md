@@ -137,64 +137,23 @@ composer require google/apiclient
 
 ### vue.js のプロジェクトを作成
 
+`resources/views/welcome.blade.php` に `csrf-token` と　`app.css` 、 `app.js` , `example-component` の読み込みを追加
+
 ```sh
 yarn install
-yarn run hot # run Build-in server (package.jsonに設定あり) http://localhost:8080/
+yarn run hot # run Build-in server (package.jsonに設定あり) http://localhost:8080/js/app.js
+php artisan serve # アクセスすると、 example-componentが見える http://127.0.0.1:8000
 
-yarn add vue-router
-yarn add vuex vuex-router-sync
+yarn add vue-router vuex vuex-router-sync
 
-yarn add axios
-yarn add tui-editor
+yarn add axios tui-editor
 
-yarn add jquery popper.js bootstrap
-yarn add bootstrap-honoka
+yarn add jquery popper.js bootstrap bootstrap-honoka
 
 yarn run build
 
-yarn run build && yarn run dev
+yarn run build && yarn run hot
 ```
-
-`webpack.config.js`のpublicPathは`./dist/`に変更し、
-
-index.htmlの`build.js`のパスも、`./dist/build.js`に変更します。
-
-### backend 接続先の切り替え
-
-webpack.EnvironmentPluginで切り替える
-
-webpack.config.js の plugins に new webpack.EnvironmentPlugin を追加する。
-指定がなかった時のために、デフォルト値を設定しておく。
-
-package.json の scripts に、dev、build毎に変数を明示できる。
-
-
-## ビルドインサーバ起動
-
-composer.jsonのserveに、公式チュートリアルの`bin/app.php`を追記して
-
-ドキュメントルートをpublicフォルダにしつつ、`bin/app.php`を起動する
-
-公式その２ならば、ドキュメントルートの指定は不要な気がする。（Webと使い分けるために`public/index.php`を使う方が良い？）
-
-```sh
-# phpコマンドで起動
-$ php -S 127.0.0.1:8080 bin/app.php # 公式JSON
-$ php -dzend_extension=xdebug.so -S 127.0.0.1:8080 -t public bin/app.php # composer.jsonのデフォルト方式＋公式JSON
-$ php -S 127.0.0.1:8080 public/index.php # 公式HTML(Twig)
-```
-
-```sh
-# composerで起動(composer.jsonに設定)
-$ composer serve # JSONサービス bin/app.php
-$ composer webserve # Webサービス public/index.php
-```
-
-`bin/app.php`に、`*.php`ファイルの時に、Bear.Sundayを使わない様に追記
-
-http://php.net/manual/ja/features.commandline.webserver.php
-
-https://accounts.google.com/o/oauth2/auth?response_type=code&access_type=offline&client_id=762229899901-sl2amoosu9fnjtmphcqr97sugl8lu6iq.apps.googleusercontent.com&redirect_uri=localhost%3A18080%3A18080%2Fapi%2Fgoogle%2Flogin.php%3Fuserid%3Dkoga%26password%3Dkoga&state&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ftasks&prompt=select_account%20consent
 
 ## テストロジック実行
 
@@ -213,9 +172,7 @@ $ composer run test # phpunitだけ
 
 ## インストール
 
-frontendは、`yarn run build`を実行し、index.htmlとdist配下をリリース先へコピーする。node_modulesとsrcは不要。
-
-backendは、`composer run compile`を念の為に実行して、まるっとPHP対応のWebサーバに置く
+laravelのマニュアルを参照
 
 ## VueをHashモードからHistoryモードへ変更するか？
 
