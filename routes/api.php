@@ -14,5 +14,6 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
+    // http://127.0.0.1:8000/api/user
     return $request->user();
 });

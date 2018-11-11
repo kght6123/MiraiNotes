@@ -155,6 +155,12 @@ yarn run build
 yarn run build && yarn run hot
 ```
 
+## Vue.js で　SPA の設定
+
+常に`routes/web.php`を「`resources/views/welcome.blade.php`」を参照する様に修正する
+
+
+
 ## テストロジック実行
 
 composer.jsonのcoverageのphpunitのパスを`./vendor/bin/phpunit`に修正して
