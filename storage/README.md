@@ -1,0 +1,9 @@
+# Directory Permissions
+
+Laravelをインストールした後、いくつかのアクセス許可を設定する必要があります。
+
+storageのディレクトリとbootstrap/cacheディレクトリは、Webサーバーによって書き込み可能である必要があります。
+
+そうでないと、Laravelは実行されません。
+
+Homestead仮想マシンを使用している場合、これらのアクセス許可は既に設定されているはずです。
