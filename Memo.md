@@ -159,6 +159,44 @@ yarn run build && yarn run hot
 
 常に`routes/web.php`を「`resources/views/welcome.blade.php`」を参照する様に修正する
 
+（ログイン認証がNGになり、`/login`にリダイレクトされる）＝＞ welcome.blade.phpは非参照にした。
+
+```sh
+$ php artisan make:auth
+$ php artisan route:list # ルートリスト表示
+```
+
+http://127.0.0.1:8000/api/user にアクセスしても、認証エラーで、/loginに飛ばされる。
+
+`Authenticate.php`の処理を見ると、JSONを期待してないときだけ、/loginに飛ばされる。
+
+Ajaxでjson指定すれば、、、大丈夫？
+
+`Authenticate.php`にJSONを期待した時のreturnの定義が必要？
+
+```sh
+$ curl -H 'Accept: application/json' http://localhost:8000/api/user
+```
+
+さらに、`api.php`のミドルウェアに`auth:api`の指定があり、
+`auth.php`のapiのdriverがtokenなので、トークン認証(csrf)が必要。
+
+https://readouble.com/laravel/5.5/ja/csrf.html
+
+`resource/layouts/app.blade.php`に`@csrf`の定義があり、
+`<input type="hidden" name="_token" value="Z18UBQzAwLFp2D7Myybz1eAmibVGWrOuFirkJCXu">`で出力される。
+
+metaタグにもcsrfトークンが出力される
+
+Axiosを使う場合は、`csrf-token`メタタグが`resources/js/bootstrap.js`ファイル（36行目あたり）に登録されているので、特に処理は不要っぽい。
+
+```sh
+$ curl -X POST -H 'X-CSRF-TOKEN: Z18UBQzAwLFp2D7Myybz1eAmibVGWrOuFirkJCXu' -H 'Accept: application/json' http://localhost:8000/api/user
+```
+
+これでもエラーになる。。。POSTは許可されていない。
+
+axiosで実行してみる？？
 
 
 ## テストロジック実行

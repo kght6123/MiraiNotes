@@ -18,7 +18,7 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers; // AuthenticatesUsersのメソッドを使う宣言、それが呼ばれる
 
     /**
      * Where to redirect users after login.

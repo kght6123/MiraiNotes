@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+//use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +14,19 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    // http://127.0.0.1:8000/api/user
-    return $request->user();
+// Route::group(['middleware' => 'api'], function() {
+//     Route::get('/user',  function() {
+//         $users = User::all()->take(5);
+//         return $users;
+//     });
+
+//     Route::get('/user',  'UserController@index'); コントローラのクラス分け
+// });
+
+// auth:apiと書くと、config/auth.phpのguardsのapiの認証が必要になる
+Route::middleware('auth:api,web')->get('/user', function (Request $request) {
+    // curl -H 'Accept: application/json' http://localhost:8000/api/user
+    return $request->user(); // Auth::user()と同じ
+    // $users = User::all()->take(5);
+    // return $users;
 });
