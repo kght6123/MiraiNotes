@@ -1,11 +1,6 @@
 
 # プロジェクト作成メモ
 
-ossnoteの名前の由来は下記などなどです。
-- online simple smart note
-- open source software note
-- open simple shared note
-
 ## 必要モジュールのインストールまたはアップグレード
 
 今回、PHPはMacのデフォルトを使用、後はbrewで導入
@@ -210,8 +205,12 @@ curlでX-CSRF-TOKENつけても認証NGになるのはなんでだろう？axios
 
 https://gist.github.com/gaillafr/02dc370c120062cf5f23896465f65fd9
 
-
-
+ユーザ削除の方法
+```
+sqlite3 database/main.sqlite3
+sqlite> delete from users;
+sqlite> .exit
+```
 
 ## テストロジック実行
 
