@@ -206,6 +206,12 @@ home.blade.php（認証前）、welcome.blade.php（認証後）にする？
 
 curlでX-CSRF-TOKENつけても認証NGになるのはなんでだろう？axiosでリクエスト投げてみる？
 
+下記の通りに修正したら上手くいった。なんで公式に解説ないねん。
+
+https://gist.github.com/gaillafr/02dc370c120062cf5f23896465f65fd9
+
+
+
 
 ## テストロジック実行
 
