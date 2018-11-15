@@ -8,6 +8,15 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+const axiosBase = require('axios');
+const axios = axiosBase.create({
+  baseURL: 'http://127.0.0.1:8000', // バックエンドB のURL:port を指定する
+  headers: {
+    'Content-Type': 'application/json',
+    'X-Requested-With': 'XMLHttpRequest'
+  },
+  responseType: 'json'
+});
 
 /**
  * The following block of code may be used to automatically register your
@@ -32,5 +41,18 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
  */
 
 const app = new Vue({
-    el: '#app'
+  el: '#app',
+  methods: {
+    hello: function() {
+      alert("Hello!");
+
+      axios.get('/api/user')
+        .then(function(response) {
+          alert(JSON.stringify(response.data));
+        })
+        .catch(function(error) {
+          console.log('ERROR!! occurred in Backend.')
+        });
+    }
+  }
 });

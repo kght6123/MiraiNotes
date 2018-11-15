@@ -14,19 +14,22 @@ use Illuminate\Http\Request;
 |
 */
 
-// Route::group(['middleware' => 'api'], function() {
-//     Route::get('/user',  function() {
-//         $users = User::all()->take(5);
-//         return $users;
-//     });
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::get('/user',  function(Request $request) {
+        // $users = User::all()->take(5);
+        // return $users;
+        // return $request->user();
+        // return Auth::user();
+        return ['api' => 'test', 'check' => Auth::check(), 'user' => Auth::user()];
+    });
 
-//     Route::get('/user',  'UserController@index'); コントローラのクラス分け
-// });
+    // Route::get('/user',  'UserController@index'); コントローラのクラス分け
+});
 
 // auth:apiと書くと、config/auth.phpのguardsのapiの認証が必要になる
-Route::middleware('auth:api,web')->get('/user', function (Request $request) {
-    // curl -H 'Accept: application/json' http://localhost:8000/api/user
-    return $request->user(); // Auth::user()と同じ
-    // $users = User::all()->take(5);
-    // return $users;
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     // curl -H 'Accept: application/json' http://localhost:8000/api/user
+//     return $request->user(); // Auth::user()と同じ
+//     // $users = User::all()->take(5);
+//     // return $users;
+// });

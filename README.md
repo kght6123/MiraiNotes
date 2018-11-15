@@ -1,10 +1,12 @@
-# OSS Notes
+# Mirai Notes
 
 MarkdownのノートをWeb上で作成し、何処でも編集や参照ができることを目指しています。
 
 ノートのテキストデータは、生のmdファイルでGoogle Driveや、GoogleTasksと同期します。
 
-バックエンドはPHP（Bear.Sunday）、フロントエンドはVue.jsを採用しています。
+バックエンドはLaravel(PHP)、フロントエンドはVue.jsを採用しています。
+
+PWAへの対応も予定しています。
 
 ## Screen Shot
 

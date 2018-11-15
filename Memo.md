@@ -191,12 +191,20 @@ metaタグにもcsrfトークンが出力される
 Axiosを使う場合は、`csrf-token`メタタグが`resources/js/bootstrap.js`ファイル（36行目あたり）に登録されているので、特に処理は不要っぽい。
 
 ```sh
-$ curl -X POST -H 'X-CSRF-TOKEN: Z18UBQzAwLFp2D7Myybz1eAmibVGWrOuFirkJCXu' -H 'Accept: application/json' http://localhost:8000/api/user
+$ curl -H 'X-CSRF-TOKEN: Z18UBQzAwLFp2D7Myybz1eAmibVGWrOuFirkJCXu' -H 'Accept: application/json' http://localhost:8000/api/user
 ```
 
-これでもエラーになる。。。POSTは許可されていない。
+Illuminate\Support\Facades\Authのメソッドを使えば独自に認証できる（「自前のユーザー認証」を参照）
 
-axiosで実行してみる？？
+https://readouble.com/laravel/5.5/ja/authentication.html
+
+home.blade.php（認証前）、welcome.blade.php（認証後）にする？
+
+それとも、すべての画面を認証前でも使える様にして、認証後じゃないと保存できない様にする？？
+
+「自前のユーザー認証」をapiでやってRESTもありか、、、
+
+curlでX-CSRF-TOKENつけても認証NGになるのはなんでだろう？axiosでリクエスト投げてみる？
 
 
 ## テストロジック実行
