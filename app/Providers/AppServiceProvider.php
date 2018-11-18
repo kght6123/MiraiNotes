@@ -21,8 +21,10 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
-    {
-        //
+    public function register() {
+        // Regist Browser Test Dusk
+        if ($this->app->environment('local', 'testing')) {
+            $this->app->register(\Laravel\Dusk\DuskServiceProvider::class);
+        }
     }
 }

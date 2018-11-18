@@ -152,6 +152,8 @@ yarn run build && yarn run hot
 
 ## Vue.js で　SPA の設定
 
+### ログイン認証周り
+
 常に`routes/web.php`を「`resources/views/welcome.blade.php`」を参照する様に修正する
 
 （ログイン認証がNGになり、`/login`にリダイレクトされる）＝＞ welcome.blade.phpは非参照にした。
@@ -211,6 +213,83 @@ sqlite3 database/main.sqlite3
 sqlite> delete from users;
 sqlite> .exit
 ```
+
+`admin@kght6123.work / kght6123`
+
+画面のユーザ登録のコントローラは`Illuminate\Routing\Router@auth`より`App\Http\Controllers\Auth\RegisterController@register`になる
+
+追っていくと、`Illuminate\Foundation\Auth\RegistersUsers@register`を呼んでいる。
+
+validatorとcreateは呼ばないと、、、`App\Http\Controllers\Auth\RegisterController`をextendして呼ぶ？
+
+`.env`は各々で設定してもらう必要がある（特にSMTPなど、TLS対応ならばMAIL_ENCRYPTIONは`tls`にする。適用には再起動が必要）
+
+```sh
+php artisan make:notification ResetPasswordNotification # app/Notifications/ResetPasswordNotification.php を作成
+```
+
+上を参考に`routes/api.php`にパスワードリセット以外のREST版を定義した。
+
+## Laravelでのテスト
+
+アプリケーションテスト(HTTPテスト、Featureテスト)は、Futureフォルダ以下にテストを作る
+
+CSRFミドルウェアは自動的に無効に、詳しくは、https://readouble.com/laravel/5.7/ja/http-tests.html をみる
+
+responseの仕様は、https://laravel.com/api/5.3/Illuminate/Http/Response.html をみる
+
+```sh
+php artisan make:test LoginTest # Featureにテストケースを作る
+php artisan make:test UserTest --unit # Unitにテストケースを作る
+vendor/bin/phpunit # 実行
+```
+
+ブラウザテストは以下のコマンドで追加モジュールをインスト
+
+```sh
+composer require "laravel/dusk" --dev
+composer require doctrine/dbal # これ無いとSQLiteでdropColumnできない
+php artisan dusk:install
+php artisan dusk:make ExampleTest # Browserにテストケースを作る
+php artisan dusk:page Login # Browser/Pageにケースを作る
+php artisan dusk # 実行
+```
+
+Browserフォルダ以下にテストを作る
+
+詳しくは、https://readouble.com/laravel/5.5/ja/dusk.html をみる
+
+`.env.testing`を作ると、テストの時だけのenvが作れる。とりあえずはそんな複雑な処理作らないし不要と思う。
+
+Fakerによるダミーデータ作成や、モック化を使ったUnitテストはとりあえずあとで考える。
+
+テストの前後でトランザクションを張って、テスト時のレコード挿入や更新をそのテストだけとするなど可能。
+テストケースに`\Illuminate\Foundation\Testing\DatabaseTransactions`を加える。
+
+
+## よく使う開発向けコマンド
+
+```sh
+# test backend
+./vendor/bin/phpunit
+# run frontend
+yarn run hot
+# run backend
+php artisan serve
+# test browser
+php artisan dusk
+# clear
+php artisan config:clear
+# migrate
+php artisan migrate
+```
+
+## 多言語対応
+
+ja.jsonはこの記事を参考に作った https://github.com/sutara79/demo-laravel-crud/blob/5.7/resources/lang/ja.json
+
+bladeの中で`__("eigo")`とすると、`ja.json`にないときは英語が表示され、あるときは、`ja.json`の値が表示されるっぽい。
+
 
 ## テストロジック実行
 

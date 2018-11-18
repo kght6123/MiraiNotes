@@ -20,6 +20,7 @@ Route::get('/', function () {
 });
 
 // 認証に必要な定義を一括で追加
+// vendor/laravel/framework/src/Illuminate/Support/Facades/Auth.php 経由で
 // vendor/laravel/framework/src/Illuminate/Routing/Router.php の auth メソッドが呼ばれる
 Auth::routes();
 

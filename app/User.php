@@ -6,6 +6,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use App\Notifications\ResetPasswordNotification;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -27,4 +29,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * パスワードリセット通知の送信
+     * 　https://readouble.com/laravel/5.4/ja/passwords.html のリセットメールのカスタマイズを参考に
+     * 
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token) {
+        $this->notify(new ResetPasswordNotification($token));
+    }
 }
