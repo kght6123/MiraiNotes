@@ -266,6 +266,7 @@ Fakerによるダミーデータ作成や、モック化を使ったUnitテス�
 テストの前後でトランザクションを張って、テスト時のレコード挿入や更新をそのテストだけとするなど可能。
 テストケースに`\Illuminate\Foundation\Testing\DatabaseTransactions`を加える。
 
+Getメソッドにパラメータ付のテストを投げれない。全体的にPOSTかRESTに変える。
 
 ## よく使う開発向けコマンド
 
@@ -282,6 +283,12 @@ php artisan dusk
 php artisan config:clear
 # migrate
 php artisan migrate
+# add resource
+php artisan make:controller Drive/OperationController --resource
+# show route list
+php artisan route:list
+# create future test
+php artisan make:test Drive/OperationTest
 ```
 
 ## 多言語対応

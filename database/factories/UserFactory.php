@@ -14,11 +14,17 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(App\User::class, function (Faker $faker) {
+    // php artisan db:seed
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
-        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
-        'remember_token' => str_random(10),
+        'email_verified_at' => $faker->date,
+        'password' => $faker->password,
+        'remember_token' => $faker->md5,
+        'api_token' => $faker->md5,
+        'gtoken' => "",
+        'markdown' => $faker->text,
+        'created_at' => $faker->date,
+        'updated_at' => $faker->date
     ];
 });

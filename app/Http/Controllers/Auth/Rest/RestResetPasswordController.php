@@ -15,18 +15,17 @@ class RestResetPasswordController extends ForgotPasswordController
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('guest');
+    public function __construct() {
+        // $this->middleware('guest');
     }
 
     /**
      * Send a reset link to the given user.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return Array
+     * @return \Illuminate\Http\Response
      */
-    public function sendResetLinkEmail(Request $request)
+    public function sendRestResetLinkEmail(Request $request)
     {
         // メールアドレスの検証
         parent::validateEmail($request);

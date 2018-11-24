@@ -14,3 +14,4 @@ yarn-error.log
 .env
 .phpunit.result.cache
 credentials.json
+token.json

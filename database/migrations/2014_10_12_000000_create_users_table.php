@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
       $table->binary('markdown')->nullable();
       $table->binary('gtoken')->nullable();
       $table->rememberToken();
-      $table->timestamps(); // created_at, updated_at 作成
+      $table->timestamps(); // created_at, updated_at
       //$table->primary(['userid', 'parent_id']);
     });
   }
