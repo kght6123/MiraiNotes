@@ -1,6 +1,7 @@
 
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c');
+//@import url('https://fonts.googleapis.com/css?family=Sawarabi+Gothic');
 
 // Variables
 @import 'variables';
@@ -8,7 +9,46 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+// HaloContext
+@import "../css/halocontext/jquery.halocontext.css";
+
+// Sidebar
+@import "../css/sidebar/bootstrap-sidebar.css";
+
+// open-iconic
+@import "~open-iconic/font/css/open-iconic-bootstrap";
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+* {
+  font-family: "M PLUS Rounded 1c";
+  /*font-family: "Sawarabi Gothic";*/
+}
+html {
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+@-ms-viewport {
+  width: device-width;
+  initial-scale: 1;
+}
+.content {
+  text-align: center;
+}
+.title {
+  font-size: 84px;
+}
+.links > a {
+  color: #636b6f;
+  padding: 0 25px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .1rem;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.m-b-md {
+  margin-bottom: 30px;
 }

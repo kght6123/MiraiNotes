@@ -145,6 +145,8 @@ yarn add axios tui-editor
 
 yarn add jquery popper.js bootstrap bootstrap-honoka
 
+yarn add monaco-editor
+
 yarn run build
 
 yarn run build && yarn run hot
@@ -266,7 +268,7 @@ Fakerによるダミーデータ作成や、モック化を使ったUnitテス�
 テストの前後でトランザクションを張って、テスト時のレコード挿入や更新をそのテストだけとするなど可能。
 テストケースに`\Illuminate\Foundation\Testing\DatabaseTransactions`を加える。
 
-Getメソッドにパラメータ付のテストを投げれない。全体的にPOSTかRESTに変える。
+Getメソッドは`url?name=value&name=value`の形式でパラメータを投げる。
 
 ## よく使う開発向けコマンド
 
@@ -289,6 +291,8 @@ php artisan make:controller Drive/OperationController --resource
 php artisan route:list
 # create future test
 php artisan make:test Drive/OperationTest
+# start test
+vendor/bin/phpunit
 ```
 
 ## 多言語対応
