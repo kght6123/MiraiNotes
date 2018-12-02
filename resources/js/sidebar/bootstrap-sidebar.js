@@ -1,12 +1,15 @@
 $(function(){
   $('.dropdown-toggle.open').click();// デフォルトで開く
   // サイドバーの表示・非表示を切り替えるイベントを設定する
-  $(".sidebar-ctrl").on("click mouseover", function(_event) {
+  $(".sidebar-ctrl,.sidebar-window-ctrl > .btn").on("click mouseover", function(_event) {
     if (window.matchMedia('(max-width:576px)').matches) {/* 576px以下 xs */
       $('.sidebar[class*=floating]').toggleClass('show');
     } else if (_event.type == "click") {
       $('.sidebar').toggleClass('none');
-      $('.sidebar-btn', this).toggleClass('reverse');
+      $('.sidebar-btn').toggleClass('reverse');
+      $(".sidebar-window-ctrl").toggleClass('full');
+      // mobileの表示も連動する
+      //$(".sidebar-material-ctrl > .btn").click();
     }
   });
   // 浮いたサイドバーを非表示にするイベントを設定
@@ -16,8 +19,8 @@ $(function(){
     }
   });
   // モバイル表示時にサイドバーを一時的に非表示にするイベントを設定
-  $(".sidebar-mobile-ctrl > .btn").on("click", function(_event) {
-    $(".sidebar-mobile-ctrl").toggleClass('full');
+  $(".sidebar-material-ctrl > .btn").on("click", function(_event) {
+    $(".sidebar-material-ctrl").toggleClass('full');
     $('.sidebar').toggleClass('none-xs');
   });
   // サイドバーの表示・非表示を切り替えるイベントを設定する

@@ -18,6 +18,16 @@
 // open-iconic
 @import "~open-iconic/font/css/open-iconic-bootstrap";
 
+// deps for tui-editor
+// require('codemirror/lib/codemirror.css'); // codemirror
+// require('tui-editor/dist/tui-editor.css'); // editor ui
+// require('tui-editor/dist/tui-editor-contents.css'); // editor content
+// require('highlight.js/styles/github.css'); // code block highlight
+
+@import "~codemirror/lib/codemirror.css"; // codemirror
+@import "~tui-editor/dist/tui-editor.css"; // editor ui
+@import "~tui-editor/dist/tui-editor-contents.css"; // editor content
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -51,4 +61,7 @@ html {
 }
 .m-b-md {
   margin-bottom: 30px;
+}
+.te-switch-button.markdown {
+  font-size: 0.85em;
 }

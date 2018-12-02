@@ -10,6 +10,9 @@ require('./bootstrap');
 require('./halocontext/jquery.halocontext');
 require('./sidebar/bootstrap-sidebar');
 
+//import Editor from 'tui-editor';
+import Editor from 'tui-editor/dist/tui-editor-Editor-all.js';
+
 window.Vue = require('vue');
 const axiosBase = require('axios');
 const axios = axiosBase.create({
@@ -57,6 +60,36 @@ const app = new Vue({
           console.log('ERROR!! occurred in Backend.')
         });
     }
+  },
+  mounted() {
+    var editor = new Editor({
+      el: document.querySelector('#editSection'),
+      //viewer: true,
+      initialEditType: 'markdown',
+      useCommandShortcut: true,
+      previewStyle: 'vertical',
+      height: '100%',
+      initialValue: '',
+      language: 'ja',
+      exts: ['scrollSync', 'colorSyntax', 'uml', 'chart', 'mark', 'table']
+    });
+
+    // const params = { path : 'welcome.md' };
+    // const url = "http://"+this.backend+"/gdrive";
+
+    // axios.get(url, { params })
+    //   .then(response => { // thenで成功した場合の処理をかける
+    //     console.log(response.data);        // レスポンスデータ
+    //     console.log(response.status);      // ステータスコード
+    //     console.log(response.statusText);  // ステータステキスト
+    //     console.log(response.headers);     // レスポンスヘッダ
+    //     console.log(response.config);      // コンフィグ
+    //     editor.setMarkdown(response.data.value, false);
+    //   })
+    //   .catch(err => { // catchでエラー時の挙動を定義する
+    //     this.results = err;
+    //     console.log('err:', err);
+    //   });
   }
 });
 

@@ -211,13 +211,13 @@
     opacity:0.9;
   }
   /* md,lgでsidebarを非表示にするためのnone */
-  /* xsでは、noneクラスの効果を除去。 */
-  .sidebar.none:not(.floating-1):not(.floating-2) {
-    display: block;
-  }
   /* xsでsidebarを非表示にするためのnone-xs */
   .sidebar.none-xs:not(.floating-1):not(.floating-2):not(.mini) {
     display: none;
+  }
+  /* xsで、非表示(none-toggle)でも全画面(none-xs)でも無い時にnoneクラスの効果を除去。 */
+  .sidebar.none:not(.floating-1):not(.floating-2):not(.none-toggle):not(.none-xs) {
+    display: block;
   }
   .sidebar.none-xs.floating-1,
   .sidebar.floating-2 {
@@ -292,15 +292,41 @@
 .sidebar:first-child {
   z-index: 1022;/* sticky-top の z-index に + 2 */
 }
-
-.sidebar-mobile-ctrl {
+.sidebar-window-ctrl {
+  position: fixed;
+  top: -0.125em;
+  left: 0.25em;
+  z-index: 1023;/* sticky-top の z-index に + 3 */
+  display: none;
+}
+.sidebar-window-ctrl > .btn {
+  max-width: 1em;
+  min-width: 1em;
+  max-height: 1em;
+  min-height: 1em;
+  border-radius: calc(1em / 2);
+  font-size: 0.75em;
+}
+@media (min-width: 576px) {/* 576px以上 xs */
+  /* fullを付与すると表示が切り替わる */
+  .sidebar-window-ctrl,
+  .sidebar-window-ctrl.full > .btn > :nth-child(1),
+  .sidebar-window-ctrl > .btn > :nth-child(2) {
+    display: block;
+  }
+  .sidebar-window-ctrl > .btn > :nth-child(1),
+  .sidebar-window-ctrl.full > .btn > :nth-child(2) {
+    display: none;
+  }
+}
+.sidebar-material-ctrl {
   position: fixed;
   right: 1em;
   bottom: 1em;
   z-index: 1023;/* sticky-top の z-index に + 3 */
   display: none;
 }
-.sidebar-mobile-ctrl > .btn {
+.sidebar-material-ctrl > .btn {
   max-width: 3em;
   min-width: 3em;
   max-height: 3em;
@@ -308,19 +334,14 @@
   border-radius: calc(3em / 2);
 }
 @media (max-width: 576px) {/* 576px以下 xs */
-  .sidebar-mobile-ctrl {
+  /* fullを付与すると表示が切り替わる */
+  .sidebar-material-ctrl,
+  .sidebar-material-ctrl > .btn > :nth-child(1),
+  .sidebar-material-ctrl.full > .btn > :nth-child(2) {
     display: block;
   }
-  .sidebar-mobile-ctrl.full > .btn > :nth-child(1) {
-    display: none;
-  }
-  .sidebar-mobile-ctrl.full > .btn > :nth-child(2) {
-    display: block;
-  }
-  .sidebar-mobile-ctrl > .btn > :nth-child(1) {
-    display: block;
-  }
-  .sidebar-mobile-ctrl > .btn > :nth-child(2) {
+  .sidebar-material-ctrl.full > .btn > :nth-child(1),
+  .sidebar-material-ctrl > .btn > :nth-child(2) {
     display: none;
   }
   .sidebar-content {

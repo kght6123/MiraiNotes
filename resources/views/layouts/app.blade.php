@@ -25,9 +25,15 @@
   <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body data-spy="scroll" data-target=".floating-2" data-offset="60" class="mw-100 w-100 mhv-100 hv-100 of-hidden">
-  <div  class="sidebar-mobile-ctrl">
-    <button type="button" class="btn btn-secondary shadow text-center align-middle">
+  <div  class="sidebar-material-ctrl">
+    <button type="button" class="btn btn-secondary shadow text-center align-middle m-0 p-0">
       <i class="oi oi-fullscreen-enter"></i>
+      <i class="oi oi-fullscreen-exit"></i>
+    </button>
+  </div>
+  <div  class="sidebar-window-ctrl">
+    <button type="button" class="btn text-center align-middle m-0 p-0 text-light bg-transparent">
+      <i class="oi oi-fullscreen-enter text-dark"></i>
       <i class="oi oi-fullscreen-exit"></i>
     </button>
   </div>
@@ -35,11 +41,11 @@
     <!-- Sidebar1  -->
     <nav class="sidebar bg-secondary simple always">
       <div class="sticky-top">
-        <div class="sidebar-header text-light">
+        <!--div class="sidebar-header text-light">
           <h3>ダブルサイドバー</h3>
           <img src="../image/illustrain10-doubutu20.png" />
-        </div>
-        <ul class="list-unstyled">
+        </div-->
+        <ul class="list-unstyled mt-5">
           <li>
             <a href="#" class="text-light" data-toggle="modal" data-target="#exampleModalCenter">
               <i class="oi oi-person"></i>
@@ -431,12 +437,12 @@
         </ul>
       </div>
     </nav>
-    <!-- Sidebar Button  -->
+    <!-- Sidebar Button
     <div class="sidebar-ctrl">
       <div class="sidebar-btn sticky-top"></div>
-    </div>
+    </div> -->
     <!-- Page Content  -->
-    <main class="sidebar-content of-y-auto mhv-100 hv-100">
+    <main class="sidebar-content of-hidden mhv-100 hv-100 mw-100 m-0 p-0">
       <!-- Topに使うか？
         <div class="jumbotron-fluid bg-light mt-4">
           <h1 class="display-4">Title</h1>
@@ -446,8 +452,8 @@
           <a class="btn btn-primary btn-lg" href="#" role="button">button</a>
         </div>
       -->
-      <div id="app">
-        <!-- デフォルトだと#appはvue.jsが有効 -->
+      <!-- デフォルトだと#appはvue.jsが有効 -->
+      <div id="app" style="display: none;">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
           <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
@@ -513,6 +519,8 @@
             @yield('content')
         </main>
       </div>
+      <div id="editSection" class="m-0 mw-100 mh-100"></div>
+      <!--
       <h1>積層サイドバー</h1>
       <nav aria-label="Breadcrumbs" class="sticky-top" style="min-height: 40px;">
         <ol class="breadcrumb bg-light" style="opacity: 0.85;">
@@ -618,6 +626,7 @@ console.log("Hellow world!!");</pre>
               <li><a href="https://kght6123.work/" target="_blank">ブログ</a></li>
           </ul>
       </p>
+      -->
     </main>
     <nav class="sidebar bg-light simple always mini">
       <div class="sticky-top">
