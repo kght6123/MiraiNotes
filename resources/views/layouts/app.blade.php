@@ -117,44 +117,24 @@
             </a>
           </li>
           <li>
-            <a href="#otherPage" data-toggle="collapse" aria-expanded="false" class="text-light dropdown-toggle">
-              <i class="oi oi-info"></i>
-              その他
+            <a href="#" class="text-light sidebar-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="oi oi-question-mark"></i>
+              問合せ
             </a>
-            <ul class="collapse list-unstyled" id="otherPage" data-parent=".sidebar">
-              <li>
-                <a href="#" class="text-light">
-                  <i class="fas fa-image"></i>
-                  自己紹介
-                </a>
-              </li>
-              <li>
-                <a href="#" class="text-light">
-                  <i class="fas fa-question"></i>
-                  免責事項
-                </a>
-              </li>
-              <li>
-                <a href="#" class="text-light dropdown dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="fas fa-paper-plane"></i>
-                  問合せ
-                </a>
-                <!-- ドロップメニューの設定 -->
-                <div class="dropdown-menu bg-dark text-light" style="min-width: 20em;">
-                  <form class="px-4 py-3">
-                    <div class="form-group">
-                      <label for="exampleDropdownFormEmail1">タイトル</label>
-                      <input type="text" class="form-control bg-dark text-light" placeholder="～について">
-                    </div>
-                    <div class="form-group">
-                      <label for="exampleDropdownFormPassword1">本文</label>
-                      <textarea class="form-control bg-dark text-light" rows="5" placeholder="お問合せ内容の詳細を入力してください。"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">送信</button>
-                  </form>
-                </div><!-- /.dropdown-menu -->
-              </li>
-            </ul>
+            <!-- ドロップメニューの設定 -->
+            <div class="dropdown-menu bg-dark text-light" style="min-width: 20em;">
+              <form class="px-4 py-3">
+                <div class="form-group">
+                  <label for="exampleDropdownFormEmail1">タイトル</label>
+                  <input type="text" class="form-control bg-dark text-light" placeholder="～について">
+                </div>
+                <div class="form-group">
+                  <label for="exampleDropdownFormPassword1">本文</label>
+                  <textarea class="form-control bg-dark text-light" rows="5" placeholder="お問合せ内容の詳細を入力してください。"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">送信</button>
+              </form>
+            </div><!-- /.dropdown-menu -->
           </li>
         </ul>
       </div>
