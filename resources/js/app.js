@@ -10,10 +10,18 @@ require('./bootstrap');
 require('./halocontext/jquery.halocontext');
 require('./sidebar/bootstrap-sidebar');
 
+// import VeeValidate
+import VeeValidate, { Validator } from'vee-validate';
+
 //import Editor from 'tui-editor';
 import Editor from 'tui-editor/dist/tui-editor-Editor-all.js';
 
+// require Vue
 window.Vue = require('vue');
+
+// use VeeValidate
+window.Vue.use(VeeValidate);
+
 const axiosBase = require('axios');
 const axios = axiosBase.create({
   baseURL: 'http://127.0.0.1:8000', // バックエンドB のURL:port を指定する
@@ -90,6 +98,69 @@ const app = new Vue({
     //     this.results = err;
     //     console.log('err:', err);
     //   });
+  }
+});
+
+const login = new Vue({
+  el: '#login',
+  data: {
+    name: null,
+    email: null,
+    password: null,
+    password_confirmation: null,
+    save: true,
+    regist: false
+  },
+  created() {
+    // メッセージを日本語に設定する
+    this.$validator.localize('ja');
+  },
+  watch: {
+    regist: function(_new, _old) {
+      if (_new) {
+        // 新規登録のとき
+
+      }
+    }
+  },
+  methods: {
+    login: function() {
+      // alert("email="+this.email+",password="+this.password+",save="+this.save+",regist="+this.regist);
+      
+      // バリデーションする
+      this.$validator.errors.remove('notification');
+      this.$validator.validateAll().then((result) => {
+        if ( this.regist && !result ) {
+          // 新規登録で入力エラー
+          this.$validator.errors.add({field: 'notification', msg: '入力エラーがあります...'});
+          return false;
+        } else if ( this.regist && (errors.has('email') || errors.has('password')) ) {
+          // ログインで入力エラー
+          this.$validator.errors.add({field: 'notification', msg: '入力エラーがあります...'});
+          return false;
+        }
+      });
+
+      if (this.regist) {
+        // ユーザ登録する
+        axios.post('/api/register', { name: this.name, email: this.email, password: this.password, password_confirmation: this.password_confirmation })
+          .then(function(response) {
+            alert(JSON.stringify(response.data));
+          })
+          .catch(function(error) {
+            console.log('ERROR!! occurred in Backend.')
+          });
+      } else {
+        // ユーザ認証する
+        axios.post('/api/login', { email: this.email, password: this.password })
+          .then(function(response) {
+            alert(JSON.stringify(response.data));
+          })
+          .catch(function(error) {
+            console.log('ERROR!! occurred in Backend.')
+          });
+      }
+    }
   }
 });
 

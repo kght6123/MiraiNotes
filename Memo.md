@@ -147,6 +147,8 @@ yarn add jquery popper.js bootstrap bootstrap-honoka
 
 yarn add monaco-editor
 
+yarn add vee-validate
+
 yarn run build
 
 yarn run build && yarn run hot

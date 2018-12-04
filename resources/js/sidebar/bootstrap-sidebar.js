@@ -8,8 +8,6 @@ $(function(){
       $('.sidebar').toggleClass('none');
       $('.sidebar-btn').toggleClass('reverse');
       $(".sidebar-window-ctrl").toggleClass('full');
-      // mobileの表示も連動する
-      //$(".sidebar-material-ctrl > .btn").click();
     }
   });
   // 浮いたサイドバーを非表示にするイベントを設定
