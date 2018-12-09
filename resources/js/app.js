@@ -125,6 +125,21 @@ const store = new Vuex.Store({
         if (store.state.user)
           store.state.user.markdown = store.state.editor.getMarkdown();
           //console.log("update markdown.");
+      }, blur: function() {
+        if(store.state.user) {
+          axios.post('/api/update', store.state.user)
+            .then(function(response) {
+              alert(JSON.stringify(response.data));
+              if(response.data.update) {
+                console.log('markdown update ok.');
+              } else {
+                console.log('markdown update ng.');
+              }
+            }.bind(this))// thisを使う
+            .catch(function(error) {
+              console.log('ERROR!! occurred in Backend.');
+            }.bind(this));// thisを使う
+        }
       }}
     })
   },
