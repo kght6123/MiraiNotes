@@ -149,6 +149,8 @@ yarn add monaco-editor
 
 yarn add vee-validate
 
+yarn add es6-promise
+
 yarn run build
 
 yarn run build && yarn run hot

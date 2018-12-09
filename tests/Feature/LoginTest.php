@@ -45,6 +45,19 @@ class LoginTest extends TestCase
     }
 
     /**
+     * 更新
+     * @return void
+     */
+    public function testUpdate() {
+        $this->user['name'] = 'update';
+        $this->user['markdown'] = '# AAA';
+        $response = $this->withHeaders($this->headersWithToken)->post("/api/update", $this->user);
+        echo var_dump($response->content(), false);
+        $response
+           ->assertJson(['update' => true]);
+    }
+
+    /**
      * ユーザ情報を取得
      * @return void
      */

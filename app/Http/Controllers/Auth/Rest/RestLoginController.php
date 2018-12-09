@@ -61,4 +61,23 @@ class RestLoginController extends Controller
         // 認証ユーザ情報を返す
         return ['check' => Auth::check(), 'user' => Auth::user()];
     }
+
+    /**
+     * update.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request) {
+        $user = Auth::user();
+
+        if ($request->has('email')) $user->email = $request->input('email');
+        if ($request->has('name')) $user->name = $request->input('name');
+        //if ($request->has('password')) $user->name = $request->input('password');
+        if ($request->has('markdown')) $user->markdown = $request->input('markdown');
+        if ($request->has('gtoken')) $user->gtoken = $request->input('gtoken');
+        $user->save();
+
+        return ['update' => true, 'user' => Auth::user()];
+    }
 }

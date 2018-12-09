@@ -23,6 +23,7 @@ Route::group(['middleware' => 'auth:api'], function() {
   Route::post('/logout', 'Auth\Rest\RestLoginController@logout');// function(Request $request) { return ['check' => Auth::check(), 'user' => Auth::user()]; }
   // curl -X POST -H 'X-CSRF-TOKEN: 〜' -H 'Accept: application/json' "http://localhost:8000/api/unregister"
   Route::post('/unregister', 'Auth\Rest\RestRegisterController@unregister');
+  Route::post('/update', 'Auth\Rest\RestLoginController@update');
 
   Route::resource('/drive', 'Drive\OperationController');
   Route::post('/drive/auth', 'Drive\OperationController@auth');

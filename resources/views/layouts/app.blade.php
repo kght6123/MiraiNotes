@@ -436,7 +436,7 @@
             @yield('content')
         </main>
       </div>
-      <div id="editSection" class="m-0 mw-100" style="max-height: calc(100% - 15px);"></div>
+      <div id="edit-section" class="m-0 mw-100" style="max-height: calc(100% - 15px);"></div>
     </main>
     <nav class="sidebar bg-light simple always mini">
       <div class="sticky-top">
@@ -524,13 +524,14 @@
             <div class="form-check custom-control custom-checkbox"><!-- custom-control-inline -->
               <input type="checkbox" class="custom-control-input dropdown-toggle" id="regist" v-model="regist" v-bind:class="{ 'is-invalid': errors.has('unregist') }" role="button" data-toggle="collapse" aria-expanded="false">
               <label class="custom-control-label" for="regist">新規登録</label>
-              <span class="invalid-tooltip">既に登録されています。</span>
+              <span class="invalid-tooltip">登録できませんでした、既に登録されている可能性があります。</span>
             </div>
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">閉じる</button>
-            <button class="form-control btn btn-primary" type="button" v-on:click="login" v-bind:class="{ 'is-invalid': errors.has('notification') }">ログイン</button>
+            <button class="form-control btn btn-primary" type="button" v-on:click="login" v-bind:class="{ 'is-invalid': errors.has('notification') || errors.has('regist_error') }">ログイン</button>
             <span class="invalid-tooltip" v-show="errors.has('notification')">入力エラーがあります。</span>
+            <span class="invalid-tooltip" v-show="errors.has('regist_error')">@{{ errors.first('regist_error') }}</span>
           </div>
         </div>
       </div>
