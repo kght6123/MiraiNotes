@@ -4,7 +4,6 @@
 /storage/*.key
 /vendor
 /.idea
-/.vscode
 /nbproject
 /.vagrant
 Homestead.json
@@ -13,6 +12,6 @@ npm-debug.log
 yarn-error.log
 .env
 .phpunit.result.cache
-credentials.json
+credentials*.json
 token.json
 id.json

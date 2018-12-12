@@ -19,6 +19,10 @@ import VeeValidate, { Validator } from'vee-validate';
 //import Editor from 'tui-editor';
 import Editor from 'tui-editor/dist/tui-editor-Editor-all.js';
 
+// import iziModal
+//import iziModal from 'izimodal/js/iziModal';
+//$.fn.iziModal = iziModal;
+
 // require Vue
 window.Vue = require('vue');
 
@@ -129,7 +133,7 @@ const store = new Vuex.Store({
         if(store.state.user) {
           axios.post('/api/update', store.state.user)
             .then(function(response) {
-              alert(JSON.stringify(response.data));
+              //alert(JSON.stringify(response.data));
               if(response.data.update) {
                 console.log('markdown update ok.');
               } else {
@@ -141,7 +145,8 @@ const store = new Vuex.Store({
             }.bind(this));// thisを使う
         }
       }}
-    })
+    }),
+    authUrl: null,
   },
   // Storeに対するGetterを定義
   getters: {
@@ -153,7 +158,10 @@ const store = new Vuex.Store({
     },
     editorMarkdown(state) {
       return state.editor.getMarkdown();
-    }
+    },
+    authUrl(state) {
+      return state.authUrl;
+    },
   },
   // Storeに対するActionを定義
   actions: {
@@ -162,6 +170,9 @@ const store = new Vuex.Store({
     },
     setMarkdown (context, markdown) {
       context.commit('SET_MARKDOWN', markdown); // Actionはmutationsを呼ぶ
+    },
+    setAuthUrl (context, authUrl) {
+      context.commit('SET_AUTHURL', authUrl); // Actionはmutationsを呼ぶ
     },
   },
   mutations: {
@@ -173,7 +184,58 @@ const store = new Vuex.Store({
     SET_MARKDOWN (state, markdown) {
       state.editor.setMarkdown(markdown, false/*cursorToEndopt*/);
     },
+    SET_AUTHURL (state, authUrl) {
+      state.authUrl = authUrl;
+    }
   },
+});
+
+// ログインユーザ情報の監視
+store.watch(function(state, getter){
+  return getter.user;
+}, function(){
+  const user = store.state.user;
+  if(user) {
+    // login ok.
+    // change login icon
+    $("#link-login .mdi-tr.mdi-close-circle.text-danger")
+      .removeClass(['mdi-close-circle', 'text-danger'])
+      .addClass(['mdi-check-circle', 'text-success']);
+    
+    if (user.api_token) {
+      window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + user.api_token;
+    }
+    if (user.gtoken) {
+      // google login ok.
+      $("#link-login-google .mdi-tr.mdi-close-circle.text-danger")
+        .removeClass(['mdi-close-circle', 'text-danger'])
+        .addClass(['mdi-check-circle', 'text-success']);
+      $('#link-login-google').removeClass('d-none');
+
+    } else {
+      // Google認証を実行する
+      axios.post('/api/drive/auth', { web: true })
+        .then(function(response) {
+          //alert(JSON.stringify(response.data));
+          if(response.data.authUrl) {
+            store.dispatch('setAuthUrl', response.data.authUrl);
+          }
+        }.bind(this))// thisを使う
+        .catch(function(error) {
+          console.log('ERROR!! occurred in Backend.');
+        }.bind(this));// thisを使う
+    }
+  }
+}, {immediate: true, deep: true});
+
+// Google認証URLを監視
+store.watch(function(state, getter){
+  return getter.authUrl;
+}, function(){
+  const authUrl = store.state.authUrl;
+  if(authUrl) {
+    $('#link-login-google').removeClass('d-none');
+  }
 });
 
 const login = new Vue({
@@ -245,7 +307,7 @@ const login = new Vue({
         // ユーザ認証する
         axios.post('/api/login', { email: this.email, password: this.password })
           .then(function(response) {
-            // alert(JSON.stringify(response.data));
+            //alert(JSON.stringify(response.data));
             if(response.data.auth) {
               $('#login-modal').modal('hide');
               this.$store.dispatch('setUser', response.data.user);
@@ -258,6 +320,42 @@ const login = new Vue({
             console.log('ERROR!! occurred in Backend.');
           }.bind(this));// thisを使う
       }
+    }
+  }
+});
+
+const auth = new Vue({
+  el: '#auth',
+  store: store,
+  data: {
+    code: null
+  },
+  created() {
+    // メッセージを日本語に設定する
+    this.$validator.localize('ja');
+  },
+  methods: {
+    open: function() {
+      // Google認証ウィンドウを開く
+      window.open(this.$store.state.authUrl, 'auth');
+    },
+    auth: function() {
+      this.$validator.validateAll().then((result) => {
+        if (!result ) return false;
+      });
+      // Google認証を実行する
+      axios.post('/api/drive/auth', { code: this.code, web: true })
+        .then(function(response) {
+          alert(JSON.stringify(response.data));
+          if(response.data.auth) {
+            // レスポンス後に開き直す
+            //alert("認証OK");
+            $('#auth-modal').modal('hide');
+          }
+      }.bind(this))// thisを使う
+      .catch(function(error) {
+        console.log('ERROR!! occurred in Backend.');
+      }.bind(this));// thisを使う
     }
   }
 });
@@ -278,5 +376,9 @@ $(function(){
       { label : "Heart9", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('9:'+$(_pe.target).html()); } },
     ],
     options : {}
+  });
+  $('#sidebar-modal .close').on('click', function(){
+    $('#sidebar-modal').addClass('d-none');
+    $('#sidebar-modal iframe').attr('src', null);
   });
 });

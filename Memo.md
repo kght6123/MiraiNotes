@@ -39,6 +39,27 @@ php -v # 7.1.19
 brew install php
 php -v # 7.2.11 
 
+# xdebug
+pecl install xdebug
+vi /usr/local/etc/php/7.2/php.ini # 先頭にxdebugの設定が追加されているので、下記も追加。
+```
+
+```ini:php.ini
+zend_extension="xdebug.so" # 追加ずみのはず
+xdebug.remote_enable=1
+xdebug.remote_autostart=1
+xdebug.remote_connect_back=1
+xdebug.remote_handler=dbgp
+xdebug.remote_mode=req
+xdebug.remote_host=localhost
+xdebug.remote_port="9001"
+xdebug.profiler_enable=1
+xdebug.profiler_output_dir="/tmp"
+xdebug.max_nesting_level=1000
+xdebug.idekey=VSCODE
+```
+
+```
 # doctor
 brew doctor # 警告を修正する
 ```
@@ -151,9 +172,16 @@ yarn add vee-validate
 
 yarn add es6-promise
 
+yarn add izimodal
+yarn add @mdi/font # https://dev.materialdesignicons.com/getting-started/bootstrap
+
 yarn run build
 
 yarn run build && yarn run hot
+
+# node_modules/laravel-mix/setup/webpack.mix.js を参考にsourcemapを有効に
+# ルートのwebpack.mix.jsに mix.sourceMaps(); // Enable sourcemaps を追記
+
 ```
 
 ## Vue.js で　SPA の設定

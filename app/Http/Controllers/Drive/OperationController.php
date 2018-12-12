@@ -36,13 +36,13 @@ class OperationController extends Controller {
         $client->setAccessType('offline');
         $client->setPrompt('select_account consent');
         // set redirect url
-        if (!$request->has('cli')) {
+        if (!$request->has('cli') && !$request->has('web')) {
             $client->setRedirectUri((empty($_SERVER['HTTPS']) ? 'http://' : 'https://')
                 . $_SERVER['HTTP_HOST'] // . ':' . $_SERVER['SERVER_PORT']
                 . strtok($_SERVER["REQUEST_URI"],'?'));
         }
         // set code and accessToken
-        if (file_exists($tokenFilePath)) {
+        if (file_exists($tokenFilePath) && $request->has('cli')) {
             $accessToken = json_decode(file_get_contents($tokenFilePath), true);
             $client->setAccessToken($accessToken);
         } else if ($request->has('code')) {

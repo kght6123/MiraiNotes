@@ -28,6 +28,9 @@
 @import "~tui-editor/dist/tui-editor.css"; // editor ui
 @import "~tui-editor/dist/tui-editor-contents.css"; // editor content
 
+// @mdi/font
+@import "~@mdi/font/scss/materialdesignicons"; // codemirror
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -64,4 +67,47 @@ html {
 }
 .te-switch-button.markdown {
   font-size: 0.85em;
+}
+
+/* @mdi/font Bootstrap Helper CSS https://dev.materialdesignicons.com/getting-started/bootstrap */
+.alert.mdi::before,
+.breadcrumb .mdi::before,
+.btn.mdi::before,
+.card-title.mdi::before,
+.card-subtitle.mdi::before,
+.card-link.mdi::before,
+.dropdown-item.mdi::before,
+.list-group-item.mdi::before,
+.nav-link.mdi::before {
+  font-size: 1.25em;
+  line-height: initial;
+  position: relative;
+  top: 0.09rem;
+}
+.alert.mdi::before,
+.breadcrumb .mdi:not(:empty)::before,
+.btn.mdi:not(:empty)::before,
+.card-title.mdi:not(:empty)::before,
+.card-subtitle.mdi:not(:empty)::before,
+.card-link.mdi:not(:empty)::before,
+.dropdown-item.mdi:not(:empty)::before,
+.nav-link.mdi:not(:empty)::before {
+  margin-right: 0.25rem;
+}
+.list-group-item.mdi:not(:empty)::before {
+  margin-right: 0.5rem;
+}
+.dropdown-item.mdi:not(:empty)::before {
+  margin-left: -0.75rem;
+}
+.alert.mdi::before,
+.list-group-item.mdi:not(:empty)::before {
+  margin-left: -0.5rem;
+}
+.modal-title.mdi::before {
+  font-size: 1.5em;
+  line-height: 0.5;
+  position: relative;
+  top: 0.26rem;
+  margin-right: 0.5rem;
 }
