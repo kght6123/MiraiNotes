@@ -456,7 +456,7 @@
           <ul class="list-unstyled">
             <li>
               <a class="text-dark" id="link-slide-mode" data-url="revealjs/revealjs.html">
-                <i class="oi oi-heart"></i>
+                <i class="mdi mdi-presentation"></i>
                 Slide Mode
               </a>
             </li>
