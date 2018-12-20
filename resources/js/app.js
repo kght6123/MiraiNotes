@@ -111,6 +111,12 @@ const app = new Vue({
   }
 });
 
+const updateDelegateMarkdown = function() {
+  // FIXME かり処理
+  console.log(store.state.editor.getMarkdown());
+  $("#delegate-markdown").val(store.state.editor.getMarkdown());
+}
+
 const store = new Vuex.Store({
   state: {
     user: null,
@@ -130,10 +136,7 @@ const store = new Vuex.Store({
           store.state.user.markdown = store.state.editor.getMarkdown();
           //console.log("update markdown.");
       }, blur: function() {
-
-        // FIXME かり処理
-        console.log(store.state.editor.getMarkdown());
-        $("#delegate-markdown").val(store.state.editor.getMarkdown());
+        updateDelegateMarkdown(); // かり処理
 
         if(store.state.user) {
           axios.post('/api/update', store.state.user)
@@ -294,6 +297,8 @@ const login = new Vue({
             if(response.data.register) {
               $('#login-modal').modal('hide');
               this.$store.dispatch('setUser', response.data.user);
+              updateDelegateMarkdown(); // かり処理
+
             } else {
               this.$validator.errors.add({field: 'unregist', msg: 'msg'});
             }
@@ -316,6 +321,8 @@ const login = new Vue({
               $('#login-modal').modal('hide');
               this.$store.dispatch('setUser', response.data.user);
               this.$store.dispatch('setMarkdown', response.data.user.markdown);
+              updateDelegateMarkdown(); // かり処理
+              
             } else {
               this.$validator.errors.add({field: 'unmatch', msg: 'msg'});
             }
