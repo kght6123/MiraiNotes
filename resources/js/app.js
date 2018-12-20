@@ -130,6 +130,11 @@ const store = new Vuex.Store({
           store.state.user.markdown = store.state.editor.getMarkdown();
           //console.log("update markdown.");
       }, blur: function() {
+
+        // FIXME かり処理
+        console.log(store.state.editor.getMarkdown());
+        $("#delegate-markdown").val(store.state.editor.getMarkdown());
+
         if(store.state.user) {
           axios.post('/api/update', store.state.user)
             .then(function(response) {
@@ -179,7 +184,6 @@ const store = new Vuex.Store({
     SET_USER (state, user) {
       state.user = user;
       state.editor.setMarkdown(state.user.markdown, false/*cursorToEndopt*/);
-      //console.log(state.user);
     },
     SET_MARKDOWN (state, markdown) {
       state.editor.setMarkdown(markdown, false/*cursorToEndopt*/);
@@ -377,8 +381,15 @@ $(function(){
     ],
     options : {}
   });
-  $('#sidebar-modal .close').on('click', function(){
-    $('#sidebar-modal').addClass('d-none');
-    $('#sidebar-modal iframe').attr('src', null);
+  $('.sidebar-modal .close').on('click', function(){
+    $('.sidebar-modal').addClass('d-none');
+    $('.sidebar-modal iframe').attr('src', null);
+
+    // FIXME かり処理
+    store.state.editor.setMarkdown($("#delegate-markdown").val(), false/*cursorToEndopt*/);
+  });
+  $('#link-slide-mode').on('click', function(){
+    $('.sidebar-modal').removeClass('d-none');
+    $('.sidebar-modal iframe').attr('src', $(this).data("url"));
   });
 });

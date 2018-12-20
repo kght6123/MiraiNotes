@@ -25,7 +25,7 @@
   <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body data-spy="scroll" data-target=".floating-2" data-offset="60" class="of-hidden">
-  <div id="sidebar-modal" class="sidebar-modal d-none">
+  <div class="sidebar-modal d-none">
     <div class="mwv-75 mhv-75 wv-75 hv-75">
       <div class="text-right"><i class="close mdi mdi-close text-light"></i></div>
       <iframe class="border-0 mw-100 w-100 mh-100 h-100 shadow-lg"></iframe>
@@ -455,6 +455,12 @@
         <div class="sticky-top">
           <ul class="list-unstyled">
             <li>
+              <a class="text-dark" id="link-slide-mode" data-url="revealjs/revealjs.html">
+                <i class="oi oi-heart"></i>
+                Slide Mode
+              </a>
+            </li>
+            <li>
               <a href="#" class="text-dark active">
                 <i class="oi oi-heart"></i>
                 Love
@@ -578,6 +584,7 @@
       </div>
     </div>
   </form>
+  <input type="hidden" id="delegate-markdown" />
   <!-- Scripts -->
   <script src="{{ mix('js/app.js') }}" defer></script>
 </body>

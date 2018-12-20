@@ -1,6 +1,19 @@
 
 # プロジェクト作成メモ
 
+tui.editorがTypeScriptに対応してる！！
+
+nhnのリポジトリに、tui.image-editorやtui.context-menu、tui.calendar、tui.tree、tui.virtual-keyboardなど面白そうなものが！
+
+https://github.com/nhnent/tui.image-editor
+
+https://github.com/nhnent/tui.context-menu
+
+https://github.com/nhnent/tui.calendar
+
+https://github.com/nhnent/tui.virtual-keyboard
+
+
 ## 必要モジュールのインストールまたはアップグレード
 
 今回、PHPはMacのデフォルトを使用、後はbrewで導入

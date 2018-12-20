@@ -1,0 +1,849 @@
+<!doctype html>
+<!-- 
+
+Markdownでプレゼンテーション案
+
+Marp Markdown Presentation Writer
+https://yhatt.github.io/marp/
+https://github.com/yhatt/marp/
+
+markdown-it をベースにしている？？
+https://github.com/markdown-it/markdown-it
+
+markdown-itはマークダウンパーサなので、マークダウンを解析して`****`のHTML/CSS変換をスライドっぽくカスタマイズしてるのかも。
+
+tui-editorもmarkdown-itベースっぽい
+
+reveal.js The HTML Presentation Framework https://revealjs.com もあるっぽい
+https://github.com/hakimel/reveal.js/ https://cdnjs.com/libraries/reveal.js/3.7.0
+
+デモ、sutara79さん作成のデモはVersionは古いがCDNベースで便利です。
+
+https://github.com/hakimel/reveal.js/blob/master/demo.html
+
+https://github.com/sutara79/demo-revealjs/blob/master/index.html
+
+
+ -->
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>Online, Presentation by revealjs</title>
+		<meta name="description" content="Online, Presentation.">
+		<meta name="author" content="Koga">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no, initial-scale=1.0" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous" />
+		<link rel="stylesheet" href="https://unpkg.com/jpn.css@latest/dist/bootstrap/jpn.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" integrity="sha256-BJ/G+e+y7bQdrYkS2RBTyNfBHpA9IuGaPmf9htub5MQ=" crossorigin="anonymous" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/css/reveal.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/css/theme/black.min.css" id="theme">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/lib/css/zenburn.min.css">
+		<style type="text/css">
+		
+			html {
+				-ms-overflow-style: -ms-autohiding-scrollbar;
+				font-size: calc(100vmin / 26.5);
+			}
+			@-ms-viewport {
+				width: device-width;
+				initial-scale: 1;
+			}
+			
+			.markdown-input-area {
+				margin-bottom: 0;
+			}
+			.markdown-input-area .markdown-input {
+				background-color: rgba(0, 0, 0, 0.5);
+				border: none;
+				z-index: 2;
+			}
+			.markdown-input-area .markdown-input {
+				min-width: 12.5em;
+				width: 12.5em;
+				min-height: 100%;
+				height: 100%;
+			}
+			
+			.markdown-input-area.floating {
+				position: relative;
+			}
+			.markdown-input-area.floating .markdown-input {
+				position: fixed;
+			}
+			.markdown-input-area.floating .markdown-input {
+				left: 0;
+				top: 0;
+			}
+			
+			@media (max-width: 767px) {/* 767px以下 md */
+				.markdown-input-area .markdown-input {
+					min-width: 100%;
+					width: 100%;
+					min-height: 12.5em;
+					height: 12.5em;
+				}
+				.markdown-input-area.floating .markdown-input {
+					left: 0;
+					top: 0;
+				}
+			}
+			
+			.markdown-input-area.full .markdown-input {
+				display: none;
+			}
+			
+			.editmode-ctrl {
+				position: fixed;
+				left: 1em;
+				bottom: 1em;
+				z-index: 1023;/* sticky-top の z-index に + 3 */
+			}
+			.editmode-ctrl > .btn {
+				max-width: 3em;
+				min-width: 3em;
+				max-height: 3em;
+				min-height: 3em;
+				border-radius: calc(3em / 2);
+			}
+			
+			.markdown-input-area.edit     > .editmode-ctrl > .btn > :nth-child(1),
+			.markdown-input-area.full     > .editmode-ctrl > .btn > :nth-child(2),
+			.markdown-input-area.floating > .editmode-ctrl > .btn > :nth-child(3) {
+				display: block;
+			}
+			.markdown-input-area.edit     > .editmode-ctrl > .btn > :nth-child(2),
+			.markdown-input-area.edit     > .editmode-ctrl > .btn > :nth-child(3),
+			.markdown-input-area.full     > .editmode-ctrl > .btn > :nth-child(1),
+			.markdown-input-area.full     > .editmode-ctrl > .btn > :nth-child(3),
+			.markdown-input-area.floating > .editmode-ctrl > .btn > :nth-child(1),
+			.markdown-input-area.floating > .editmode-ctrl > .btn > :nth-child(2) {
+				display: none;
+			}
+			
+		</style>
+		<script>
+			
+			var link = document.createElement('link');
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match(/print-pdf/gi) ?
+				'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/css/print/pdf.min.css' :
+				'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/css/print/paper.min.css';
+			
+			document.getElementsByTagName('head')[0].appendChild(link);
+			
+		</script>
+	</head>
+	<body class="d-flex flex-column flex-sm-column flex-md-row flex-lg-row flex-xl-row">
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown><textarea data-template># DUMMY</textarea></section>
+				
+				<!--section data-markdown data-separator="\n---\n$" data-separator-vertical="\n--\n" data-separator-notes="^Note:" data-charset="UTF-8">
+					<textarea id="markdown-script" data-template></textarea>
+				</section-->
+				
+				<!--<section>
+					<h1>Reveal.js</h1>
+					<h3>The HTML Presentation Framework</h3>
+					<p>
+						<small>Created by <a href="http://hakim.se">Hakim El Hattab</a> and <a href="https://github.com/hakimel/reveal.js/graphs/contributors">contributors</a></small>
+					</p>
+				</section>
+				<section>
+					<h2>Hello There</h2>
+					<p>
+						reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will show you examples of what it can do.
+					</p>
+				</section>
+				<section>
+					<section>
+						<h2>Vertical Slides</h2>
+						<p>Slides can be nested inside of each other.</p>
+						<p>Use the <em>Space</em> key to navigate through all slides.</p>
+						<br>
+						<a href="#" class="navigate-down">
+							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
+						</a>
+					</section>
+					<section>
+						<h2>Basement Level 1</h2>
+						<p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
+					</section>
+					<section>
+						<h2>Basement Level 2</h2>
+						<p>That's it, time to go back up.</p>
+						<br>
+						<a href="#/2">
+							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="transform: rotate(180deg); -webkit-transform: rotate(180deg);">
+						</a>
+					</section>
+				</section>
+				<section>
+					<h2>Slides</h2>
+					<p>
+						Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at <a href="https://slides.com" target="_blank">https://slides.com</a>.
+					</p>
+				</section>
+				<section>
+					<h2>Point of View</h2>
+					<p>
+						Press <strong>ESC</strong> to enter the slide overview.
+					</p>
+					<p>
+						Hold down alt and click on any element to zoom in on it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Alt + click anywhere to zoom back out.
+					</p>
+				</section>
+				<section>
+					<h2>Touch Optimized</h2>
+					<p>
+						Presentations look great on touch devices, like mobile phones and tablets. Simply swipe through your slides.
+					</p>
+				</section>
+				<section data-markdown>
+					<script type="text/template">
+						## Markdown support
+
+						Write content using inline or external Markdown.
+						Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+
+						```
+						<section data-markdown>
+						  ## Markdown support
+
+						  Write content using inline or external Markdown.
+						  Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+						</section>
+						```
+					</script>
+				</section>
+				<section>
+					<section id="fragments">
+						<h2>Fragments</h2>
+						<p>Hit the next arrow...</p>
+						<p class="fragment">... to step through ...</p>
+						<p><span class="fragment">... a</span> <span class="fragment">fragmented</span> <span class="fragment">slide.</span></p>
+
+						<aside class="notes">
+							This slide has fragments which are also stepped through in the notes window.
+						</aside>
+					</section>
+					<section>
+						<h2>Fragment Styles</h2>
+						<p>There's different types of fragments, like:</p>
+						<p class="fragment grow">grow</p>
+						<p class="fragment shrink">shrink</p>
+						<p class="fragment fade-out">fade-out</p>
+						<p>
+							<span style="display: inline-block;" class="fragment fade-right">fade-right, </span>
+							<span style="display: inline-block;" class="fragment fade-up">up, </span>
+							<span style="display: inline-block;" class="fragment fade-down">down, </span>
+							<span style="display: inline-block;" class="fragment fade-left">left</span>
+						</p>
+						<p class="fragment fade-in-then-out">fade-in-then-out</p>
+						<p class="fragment fade-in-then-semi-out">fade-in-then-semi-out</p>
+						<p>Highlight <span class="fragment highlight-red">red</span> <span class="fragment highlight-blue">blue</span> <span class="fragment highlight-green">green</span></p>
+					</section>
+				</section>
+				<section id="transitions">
+					<h2>Transition Styles</h2>
+					<p>
+						You can select from different transitions, like: <br>
+						<a href="?transition=none#/transitions">None</a> -
+						<a href="?transition=fade#/transitions">Fade</a> -
+						<a href="?transition=slide#/transitions">Slide</a> -
+						<a href="?transition=convex#/transitions">Convex</a> -
+						<a href="?transition=concave#/transitions">Concave</a> -
+						<a href="?transition=zoom#/transitions">Zoom</a>
+					</p>
+				</section>
+				<section id="themes">
+					<h2>Themes</h2>
+					<p>
+						reveal.js comes with a few themes built in: <br>
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black (default)</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a> <br>
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
+					</p>
+				</section>
+				<section>
+					<section data-background="#dddddd">
+						<h2>Slide Backgrounds</h2>
+						<p>
+							Set <code>data-background="#dddddd"</code> on a slide to change the background color. All CSS color formats are supported.
+						</p>
+						<a href="#" class="navigate-down">
+							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
+						</a>
+					</section>
+					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png">
+						<h2>Image Backgrounds</h2>
+						<pre><code class="hljs">&lt;section data-background="image.png"&gt;</code></pre>
+					</section>
+					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px">
+						<h2>Tiled Backgrounds</h2>
+						<pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
+					</section>
+					<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-color="#000000">
+						<div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
+							<h2>Video Backgrounds</h2>
+							<pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code></pre>
+						</div>
+					</section>
+					<section data-background="http://i.giphy.com/90F8aUepslB84.gif">
+						<h2>... and GIFs!</h2>
+					</section>
+				</section>
+				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
+					<h2>Background Transitions</h2>
+					<p>
+						Different background transitions are available via the backgroundTransition option. This one's called "zoom".
+					</p>
+					<pre><code class="hljs">Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
+				</section>
+				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
+					<h2>Background Transitions</h2>
+					<p>
+						You can override background transitions per-slide.
+					</p>
+					<pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
+				</section>
+				<section>
+					<h2>Pretty Code</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+function linkify( selector ) {
+  if( supports3DTransforms ) {
+
+    var nodes = document.querySelectorAll( selector );
+
+    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
+      var node = nodes[i];
+
+      if( !node.className ) {
+        node.className += ' roll';
+      }
+    }
+  }
+}
+					</code></pre>
+					<p>Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
+				</section>
+				<section>
+					<h2>Marvelous List</h2>
+					<ul>
+						<li>No order here</li>
+						<li>Or here</li>
+						<li>Or here</li>
+						<li>Or here</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Fantastic Ordered List</h2>
+					<ol>
+						<li>One is smaller than...</li>
+						<li>Two is smaller than...</li>
+						<li>Three!</li>
+					</ol>
+				</section>
+				<section>
+					<h2>Tabular Tables</h2>
+					<table>
+						<thead>
+							<tr>
+								<th>Item</th>
+								<th>Value</th>
+								<th>Quantity</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Apples</td>
+								<td>$1</td>
+								<td>7</td>
+							</tr>
+							<tr>
+								<td>Lemonade</td>
+								<td>$2</td>
+								<td>18</td>
+							</tr>
+							<tr>
+								<td>Bread</td>
+								<td>$3</td>
+								<td>2</td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+				<section>
+					<h2>Clever Quotes</h2>
+					<p>
+						These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">The nice thing about standards is that there are so many to choose from</q> and block:
+					</p>
+					<blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
+						&ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
+						reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
+					</blockquote>
+				</section>
+				<section>
+					<h2>Intergalactic Interconnections</h2>
+					<p>
+						You can link between slides internally,
+						<a href="#/2/3">like this</a>.
+					</p>
+				</section>
+				<section>
+					<h2>Speaker View</h2>
+					<p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
+					<p>Press the <em>S</em> key to try it out.</p>
+
+					<aside class="notes">
+						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
+					</aside>
+				</section>
+				<section>
+					<h2>Export to PDF</h2>
+					<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, here's an example:</p>
+					<iframe data-src="https://www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
+				</section>
+				<section>
+					<h2>Global State</h2>
+					<p>
+						Set <code>data-state="something"</code> on a slide and <code>"something"</code>
+						will be added as a class to the document element when the slide is open. This lets you
+						apply broader style changes, like switching the page background.
+					</p>
+				</section>
+				<section data-state="customevent">
+					<h2>State Events</h2>
+					<p>
+						Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
+					</p>
+					<pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
+Reveal.addEventListener( 'customevent', function() {
+	console.log( '"customevent" has fired' );
+} );
+					</code></pre>
+				</section>
+				<section>
+					<h2>Take a Moment</h2>
+					<p>
+						Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
+					</p>
+				</section>
+				<section>
+					<h2>Much more</h2>
+					<ul>
+						<li>Right-to-left support</li>
+						<li><a href="https://github.com/hakimel/reveal.js#api">Extensive JavaScript API</a></li>
+						<li><a href="https://github.com/hakimel/reveal.js#auto-sliding">Auto-progression</a></li>
+						<li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
+						<li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
+					</ul>
+				</section>
+				<section style="text-align: left;">
+					<h1>THE END</h1>
+					<p>
+						- <a href="https://slides.com">Try the online editor</a> <br>
+						- <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
+					</p>
+				</section>-->
+			</div>
+		</div>
+		<div class="markdown-input-area floating form-group">
+			<div class="editmode-ctrl">
+				<button type="button" class="btn btn-secondary shadow text-center align-middle">
+					<i class="oi oi-pencil"></i><!-- Normal -->
+					<i class="oi oi-fullscreen-enter"></i><!-- Full -->
+					<i class="oi oi-layers"></i><!-- Floating -->
+				</button>
+			</div>
+			<textarea class="form-control text-light markdown-input" placeholder="Please Markdown input."></textarea>
+		</div>
+		<div style="display:none;" id="temp-slides"></div>
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/lib/js/head.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/js/reveal.js"></script>
+		<script>
+			
+			var revealOptions = { separator: "\n---\n\n", verticalSeparator: "\n--\n\n", notesSeparator: "^Note:" };
+			
+			// 初期表示Markdown
+			var initMarkdownText = ["## Page title 1",
+				"",
+				"A paragraph with some text and a [link](http://hakim.se).",
+				"",
+				"---",
+				"",
+				"## Page title 2-1",
+				"",
+				"A paragraph with some text and a [link](http://hakim.se).",
+				"",
+				"--",
+				"",
+				"## Page title 2-2",
+				"",
+				"A paragraph with some text and a [link](http://hakim.se)."
+				].join("\n");
+			
+			if (parent)
+				initMarkdownText = $("#delegate-markdown", parent.document).val();
+			
+			// スライド毎にMarkdownを分割し、配列に格納する
+			var separatorReg = new RegExp(revealOptions.separator, "gmy");
+			var verticalSeparatorReg = new RegExp(revealOptions.verticalSeparator, "gmy");
+			
+			var initMarkdownSlides = $.map(initMarkdownText.split(separatorReg), function(sepVal, sepIdx) {
+				
+				if (sepVal.split) { /* $.isArray(sepVal) */
+					var vSlides = $.map(sepVal.split(verticalSeparatorReg), function(vsepVal, vsepIdx) {
+						return vsepVal;
+					});
+					return [vSlides];
+				}
+			});
+			
+			var getMarkdownText = function(){
+				return $.map(initMarkdownSlides, function(sepVal, sepIdx) {
+					return sepVal.join(revealOptions.verticalSeparator);
+				}).join(revealOptions.separator);
+			};
+			
+			var getMarkdownSlide = function(_indexh, _indexv) {
+				
+				if(initMarkdownSlides.length > _indexh)
+					return initMarkdownSlides[_indexh][_indexv];
+				else
+					return null;
+			};
+			
+			var setMarkdownSlide = function(_indexh, _indexv, _mdText) {
+				
+				if(initMarkdownSlides.length > _indexh)
+					initMarkdownSlides[_indexh][_indexv] = _mdText;
+			};
+			
+			console.log(initMarkdownSlides);
+			
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				
+				// Options which are passed into marked
+				// See https://github.com/chjj/marked#options-1
+				width: "100%",
+				height: "100%",
+				margin: 0,
+				minScale: 1,
+				maxScale: 1,
+				
+				touch: true,
+				keyboard: true,
+				overview: true,
+				
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				embedded: false,
+				mouseWheel: true,
+				previewLinks: true,
+				
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+				
+				markdown: {smartLists: true, smartypants: true},
+				
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{
+						src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/lib/js/classList.js',
+						condition: function() { return !document.body.classList; }
+					},
+					{
+						src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/plugin/markdown/marked.js',
+						condition: function() { return !!document.querySelector( '[data-markdown]' ); }
+					},
+					{
+						src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/plugin/markdown/markdown.min.js',
+						condition: function() { return !!document.querySelector( '[data-markdown]' ); }
+					},
+					{
+						src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/plugin/highlight/highlight.min.js',
+						async: true,
+						callback: function() { hljs.initHighlightingOnLoad(); }
+					},
+					{
+						src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/plugin/search/search.min.js',
+						async: true
+					},
+					{
+						src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/plugin/zoom-js/zoom.min.js',
+						async: true
+					},
+					{
+						src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/plugin/notes/notes.min.js',
+						async: true
+					}
+				]
+			});
+			
+			// Revealがレディになったときに実行
+			Reveal.addEventListener( 'ready', function( event ) {
+				// event.currentSlide, event.indexh, event.indexv
+				
+				// 状態を取得
+				var state = Reveal.getState();
+				
+				// Markdown文字列を、section+script(md)のHTMLに変換する
+				var section = RevealMarkdown.slidify( initMarkdownText, revealOptions );
+				
+				// section+script(md)のHTMLをスライド一覧の中に追加
+				$(".slides").html(section);
+
+				// スライド内のMarkdownをHTMLに変換
+				RevealMarkdown.convertSlides();
+				
+				// 同期
+				Reveal.sync();
+				//Reveal.layout();
+				
+				// 状態を更新
+				Reveal.setState(state);
+				
+				$(".markdown-input").val(getMarkdownSlide(0, 0));
+			});
+			
+			// スライドを動かしたときに実行
+			Reveal.addEventListener( 'slidechanged', function( event ) {
+				// event.previousSlide, event.currentSlide, event.indexh, event.indexv
+				
+				// テキストエリアを更新
+				$(".markdown-input").val(getMarkdownSlide(event.indexh, event.indexv));
+			});
+			
+			$(".markdown-input").on("keyup",  function() {
+				
+				// 状態を取得
+				var state = Reveal.getState();
+				
+				var mdText = $(".markdown-input").val();
+				
+				// Markdown文字列を、section+script(md)のHTMLに変換する
+				var section = RevealMarkdown.slidify( mdText, revealOptions );
+				
+				// section+script(md)のHTMLをスライド一覧の中に追加
+				$("#temp-slides").html(section);
+				
+				// スライド内のMarkdownをHTMLに変換
+				RevealMarkdown.convertSlides();
+				
+				// セクション内のHTMLを取得
+				var tempHtml = $("#temp-slides section").html();
+				
+				var $hsection = $(".slides > section:nth-child("+ (state.indexh + 1) +")");
+				
+				if ($hsection.length > 0) {
+					var $vsections = $hsection.children("section");
+					
+					if($vsections.length > 0) {
+						$("section:nth-child("+ (state.indexv + 1) +")", $hsection).html(tempHtml);
+						
+					} else {
+						$hsection.html(tempHtml);
+					}
+				}
+				// 同期
+				setMarkdownSlide(state.indexh, state.indexv, mdText);
+
+				if (parent)
+					$("#delegate-markdown", parent.document).val(getMarkdownText());
+			});
+			
+			$(".editmode-ctrl").on("click", function(){
+				
+				var $ia = $(".markdown-input-area");
+				
+				if($ia.hasClass("full")) {
+					$ia.removeClass("full").addClass("floating");
+					
+				} else if($ia.hasClass("floating")) {
+					$ia.removeClass("floating").addClass("edit");
+					Reveal.sync();// editは再計算させないと崩れる。
+					
+				} else if($ia.hasClass("edit")) {
+					$ia.removeClass("edit").addClass("full");
+				}
+				
+				console.log(getMarkdownText());// 逆変換テスト
+			});
+			
+			$(function(){
+				
+				
+				// optionsはoptions.separatorとoptions.notesSeparator、options.attributes（section要素の属性になるっぽい）
+
+				// プレゼンテーションはインラインモーダルで表示する。
+				//  ⇒ 表示サイズは切り替え可能（600x600、1000x1000、FullScreenなど）
+				//  ⇒ 文字サイズは画面サイズに応じて、拡大縮小
+				// 
+
+				// プレゼンテーションモードへ切り替え
+				//  ⇒ HTML（KeyNote）
+				//  ⇒ スライド毎にMarkdownを取得（getMarkdownFromSlide）して、hover時に反映（createMarkdownSlide⇒Revealの関数でSlide置き換え）
+				//    ⇒ 速度によってはリアルタイム置き換えもいける？
+				// 
+
+				// マークダウンモードへ戻す
+				//  ⇒ 全SlideをMarkdownに変換して、-- や --- の区切りにする。（切り替え前と変わっちゃうかも。）
+				// 
+				
+				// RevealMarkdown
+				// https://github.com/hakimel/reveal.js/blob/master/plugin/markdown/markdown.js
+				// 405行目あたりにAPI一覧、processSlidesとconvertSlides、slidifyしか使えない
+				
+				/**
+				 * Converts any current data-markdown slides in the
+				 * DOM to HTML.
+				function convertSlides() { */
+				
+				/**
+				Parses a data string into multiple slides based
+				on the passed in separator arguments.
+				function slidify( markdown, options ) {
+				*/
+				
+				// Reveal
+				// https://github.com/hakimel/reveal.js/blob/master/js/reveal.js
+				// 5,371行あたりから、外部公開のAPI
+				
+				/**
+				 * Updates reveal.js to keep in sync with new slide attributes. For
+				 * example, if you add a new `data-background-image` you can call
+				 * this to have reveal.js render the new background image.
+				 *
+				 * Similar to #sync() but more efficient when you only need to
+				 * refresh a specific slide.
+				 *
+				 * @param {HTMLElement} slide
+				function syncSlide( slide ) {*/
+				
+				/**
+				 * Updates one dimension of slides by showing the slide
+				 * with the specified index.
+				 *
+				 * @param {string} selector A CSS selector that will fetch
+				 * the group of slides we are working with
+				 * @param {number} index The index of the slide that should be
+				 * shown
+				 *
+				 * @return {number} The index of the slide that is now shown,
+				 * might differ from the passed in index if it was out of
+				 * bounds.
+				function updateSlides( selector, index ) { */
+				
+				/**
+				 * Updates the slide number div to reflect the current slide.
+				 *
+				 * The following slide number formats are available:
+				 *  "h.v":	horizontal . vertical slide number (default)
+				 *  "h/v":	horizontal / vertical slide number
+				 *    "c":	flattened slide number
+				 *  "c/t":	flattened slide number / total slides
+				function updateSlideNumber() { */
+				
+				/**
+				 * Called when the given slide is within the configured view
+				 * distance. Shows the slide element and loads any content
+				 * that is set to load lazily (data-src).
+				 *
+				 * @param {HTMLElement} slide Slide to show
+				function loadSlide( slide, options ) { */
+				
+				/**
+				 * Unloads and hides the given slide. This is called when the
+				 * slide is moved outside of the configured view distance.
+				 *
+				 * @param {HTMLElement} slide
+				function unloadSlide( slide ) { */
+				
+				/**
+				 * Returns the number of past slides. This can be used as a global
+				 * flattened index for slides.
+				 *
+				 * @return {number} Past slide count
+				function getSlidePastCount() { */
+				
+				/**
+				 * Returns a value ranging from 0-1 that represents
+				 * how far into the presentation we have navigated.
+				 *
+				 * @return {number}
+				function getProgress() { */
+				
+				/**
+				 * Retrieves the h/v location and fragment of the current,
+				 * or specified, slide.
+				 *
+				 * @param {HTMLElement} [slide] If specified, the returned
+				 * index will be for this slide rather than the currently
+				 * active one
+				 *
+				 * @return {{h: number, v: number, f: number}}
+				function getIndices( slide ) { */
+				
+				/**
+				 * Retrieves all slides in this presentation.
+				function getSlides() { */
+				
+				/**
+				 * Retrieves the total number of slides in this presentation.
+				 *
+				 * @return {number}
+				function getTotalSlides() { */
+				
+				/**
+				 * Returns the slide element matching the specified index.
+				 *
+				 * @return {HTMLElement}
+				function getSlide( x, y ) { */
+				
+				/**
+				 * Retrieves the speaker notes from a slide. Notes can be
+				 * defined in two ways:
+				 * 1. As a data-notes attribute on the slide <section>
+				 * 2. As an <aside class="notes"> inside of the slide
+				 *
+				 * @param {HTMLElement} [slide=currentSlide]
+				 * @return {(string|null)}
+				function getSlideNotes( slide ) { */
+				
+				/**
+				 * Retrieves the current state of the presentation as
+				 * an object. This state can then be restored at any
+				 * time.
+				 *
+				 * @return {{indexh: number, indexv: number, indexf: number, paused: boolean, overview: boolean}}
+				function getState() { */
+				
+				/**
+				 * Restores the presentation to the given state.
+				 *
+				 * @param {object} state As generated by getState()
+				 * @see {@link getState} generates the parameter `state`
+				function setState( state ) { */
+				
+			});
+			
+		</script>
+	</body>
+</html>
