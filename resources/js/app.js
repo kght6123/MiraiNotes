@@ -19,6 +19,9 @@ import VeeValidate, { Validator } from'vee-validate';
 //import Editor from 'tui-editor';
 import Editor from 'tui-editor/dist/tui-editor-Editor-all.js';
 
+// import js-cookie
+import Cookies from 'js-cookie';
+
 // import iziModal
 //import iziModal from 'izimodal/js/iziModal';
 //$.fn.iziModal = iziModal;
@@ -259,6 +262,10 @@ const login = new Vue({
   created() {
     // メッセージを日本語に設定する
     this.$validator.localize('ja');
+
+    // Cookieに保存されていた情報を取得する
+    this.email = Cookies.get("email");
+    this.password = Cookies.get("password");
   },
   watch: {
     regist: function(_new, _old) {
@@ -269,6 +276,13 @@ const login = new Vue({
     }
   },
   methods: {
+    saveCookie: function() {
+      if($('#save').is(':checked')) {
+        // FIXME かり処理
+        Cookies.set('email', this.email, { path: '/', expires: 365 });
+        Cookies.set('password', this.password, { path: '/', expires: 365 });
+      }
+    },
     login: function() {
       // alert("email="+this.email+",password="+this.password+",save="+this.save+",regist="+this.regist);
       
@@ -298,7 +312,7 @@ const login = new Vue({
               $('#login-modal').modal('hide');
               this.$store.dispatch('setUser', response.data.user);
               updateDelegateMarkdown(); // かり処理
-
+              login.saveCookie();
             } else {
               this.$validator.errors.add({field: 'unregist', msg: 'msg'});
             }
@@ -322,7 +336,7 @@ const login = new Vue({
               this.$store.dispatch('setUser', response.data.user);
               this.$store.dispatch('setMarkdown', response.data.user.markdown);
               updateDelegateMarkdown(); // かり処理
-              
+              login.saveCookie();
             } else {
               this.$validator.errors.add({field: 'unmatch', msg: 'msg'});
             }
