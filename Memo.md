@@ -188,6 +188,8 @@ yarn add es6-promise
 yarn add izimodal
 yarn add @mdi/font # https://dev.materialdesignicons.com/getting-started/bootstrap
 
+yarn add js-cookie
+
 yarn run build
 
 yarn run build && yarn run hot

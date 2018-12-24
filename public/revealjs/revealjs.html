@@ -44,11 +44,24 @@ https://github.com/sutara79/demo-revealjs/blob/master/index.html
 		
 			html {
 				-ms-overflow-style: -ms-autohiding-scrollbar;
-				font-size: calc(100vmin / 26.5);
+				/*font-size: calc(100vmin / 26.5);*/
 			}
 			@-ms-viewport {
 				width: device-width;
 				initial-scale: 1;
+			}
+			.reveal {
+				font-size: calc(100vmin / 15);
+			}
+			.reveal .slides>section, .reveal .slides>section>section {
+				padding: 20px;
+			}
+			.reveal dl, .reveal ol, .reveal ul {
+				padding: 0 1em 0 1em;
+				margin: 0 1em 0 1em;
+			}
+			.reveal.center .slides section {
+				left: 0;
 			}
 			
 			.markdown-input-area {
@@ -459,7 +472,7 @@ Reveal.addEventListener( 'customevent', function() {
 				</section>-->
 			</div>
 		</div>
-		<div class="markdown-input-area floating form-group">
+		<div class="markdown-input-area full form-group">
 			<div class="editmode-ctrl">
 				<button type="button" class="btn btn-secondary shadow text-center align-middle">
 					<i class="oi oi-pencil"></i><!-- Normal -->
@@ -675,14 +688,14 @@ Reveal.addEventListener( 'customevent', function() {
 				
 				if($ia.hasClass("full")) {
 					$ia.removeClass("full").addClass("floating");
-					
+
 				} else if($ia.hasClass("floating")) {
 					$ia.removeClass("floating").addClass("edit");
-					Reveal.sync();// editは再計算させないと崩れる。
 					
 				} else if($ia.hasClass("edit")) {
 					$ia.removeClass("edit").addClass("full");
 				}
+				Reveal.sync();// 再計算させないと崩れる。
 				
 				console.log(getMarkdownText());// 逆変換テスト
 			});
