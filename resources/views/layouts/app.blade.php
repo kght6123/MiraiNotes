@@ -31,6 +31,16 @@
       <iframe class="border-0 mw-100 w-100 mh-100 h-100 shadow-lg"></iframe>
     </div>
   </div>
+  <!--div id="presentation" class="sidebar-modal" v-bind:class="{ 'd-none': dnone }">
+    <div class="mwv-75 mhv-75 wv-75 hv-75">
+      <div class="text-right"><i class="close mdi mdi-close text-light" v-on:click="dnone = true"></i></div>
+      <div class="border-0 mw-100 w-100 mh-100 h-100 shadow-lg">
+        <keep-alive>
+          <md-presentation v-bind:title="title"></md-presentation>
+        </keep-alive>
+      </div>
+    </div>
+  </div-->
   <div class="sidebar-material-ctrl">
     <button type="button" class="btn btn-secondary shadow text-center align-middle m-0 p-0">
       <i class="oi oi-fullscreen-enter"></i>
@@ -46,61 +56,8 @@
   <div class="mw-100 w-100 mhv-100 hv-100 of-hidden d-flex flex-column">
     <div class="sidebar-wrapper">
       <!-- Sidebar1  -->
-      <nav class="sidebar bg-secondary simple always">
-        <div class="sticky-top">
-          <ul class="list-unstyled mt-5">
-            <li>
-              <a id="link-login" href="#" class="text-light" data-toggle="modal" data-target="#login-modal">
-                <i class="oi oi-person"></i><i class="mdi mdi-tr mdi-close-circle text-danger font-weight-bold"></i>
-                ログイン
-              </a>
-            </li>
-            <li>
-              <a id="link-login-google" href="#" class="text-light d-none" data-toggle="modal" data-target="#auth-modal">
-                <i class="mdi mdi-google"></i><i class="mdi mdi-tr mdi-close-circle text-danger font-weight-bold"></i>
-                Google
-              </a>
-            </li>
-            <li>
-              <a href="{{ url('/') }}" class="text-light active">
-                <i class="oi oi-home"></i>
-                ホーム
-              </a>
-            </li>
-            <li>
-              <a href="#" class="text-light sidebar-toggle reverse active" data-target="#filetree">
-                <i class="oi oi-list"></i>
-                ツリー
-              </a>
-            </li>
-            <li>
-              <a href="#" class="text-light sidebar-toggle" data-target="#headline">
-                <i class="oi oi-list"></i>
-                目次
-              </a>
-            </li>
-            <li>
-              <a href="#" class="text-light sidebar-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="oi oi-question-mark"></i>
-                問合せ
-              </a>
-              <!-- ドロップメニューの設定 -->
-              <div class="dropdown-menu bg-dark text-light" style="min-width: 20em;">
-                <form class="px-4 py-3">
-                  <div class="form-group">
-                    <label for="exampleDropdownFormEmail1">タイトル</label>
-                    <input type="text" class="form-control bg-dark text-light" placeholder="～について">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleDropdownFormPassword1">本文</label>
-                    <textarea class="form-control bg-dark text-light" rows="5" placeholder="お問合せ内容の詳細を入力してください。"></textarea>
-                  </div>
-                  <button type="submit" class="btn btn-primary">送信</button>
-                </form>
-              </div><!-- /.dropdown-menu -->
-            </li>
-          </ul>
-        </div>
+      <nav class="sidebar bg-secondary simple always" id="menu">
+        <mirai-menu v-bind:user="user"></mirai-menu>
       </nav>
       <!-- Sidebar3  -->
       <nav class="sidebar bg-dark floating-2" id="filetree">
@@ -508,81 +465,11 @@
   </div>
   <!-- Modal Login Floating Form -->
   <form id="login">
-    <div tabindex="-1" class="modal fade" id="login-modal" role="dialog" aria-hidden="true" aria-labelledby="login-title" style="display: none;">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content bg-dark text-light shadow-lg">
-          <div class="modal-header p-2 pl-3">
-            <h4 class="modal-title" id="login-title">ログイン</h4>
-            <button class="close" aria-label="Close" type="button" data-dismiss="modal" style="margin-top: -0.55em; margin-right: -0.25em;">
-              <span class="text-light" aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="form-group mb-2" v-bind:class="{ 'd-none': !regist }"><!-- registがfalseの時は、d-none(非表示) -->
-              <label for="name">名前</label>
-              <input type="text" class="form-control form-control-lg bg-dark text-light" id="name" name="name" placeholder="名前" v-model="name" v-bind:class="{ 'is-invalid': errors.has('name') }" v-validate="'required'" required>
-              <div class="invalid-feedback" v-if="errors.has('name')">名前を入力してください。</div>
-            </div>
-            <div class="form-group mb-2">
-              <label for="email">メールアドレス</label>
-              <input type="email" class="form-control form-control-lg bg-dark text-light" id="email" name="email" placeholder="メールアドレス" aria-describedby="email-help" v-model="email" v-bind:class="{ 'is-invalid': errors.has('email') }" v-validate="'required|email'" required>
-              <div class="invalid-feedback" v-if="errors.has('email')">登録したメールアドレスを入力してください。</div>
-            </div>
-            <div class="form-group mb-2">
-              <label for="password">パスワード</label>
-              <input type="password" class="form-control form-control-lg bg-dark text-light mb-1" id="password" name="password" placeholder="パスワード" aria-describedby="password-help" v-model="password" v-bind:class="{ 'is-invalid': errors.has('password') || errors.has('unmatch') }" v-validate="'required|min:8'" ref="password" required>
-              <input type="password" class="form-control form-control-lg bg-dark text-light" id="password_confirmation" name="password_confirmation" placeholder="パスワードを再度、入力してください" aria-describedby="password-help" v-model="password_confirmation" v-bind:class="{ 'is-invalid': errors.has('password_confirmation') || errors.has('unmatch'), 'd-none': !regist }" v-validate="'required|min:8|confirmed:password'" data-vv-as="password" required><!-- registがfalseの時は、d-none(非表示) -->
-              <div class="invalid-feedback" v-if="errors.has('password_confirmation') && regist">パスワードが一致しません。</div>
-              <div class="invalid-feedback" v-if="errors.has('unmatch')">パスワード又はメールアドレスが誤っています。</div>
-              <div class="invalid-feedback" v-if="errors.has('password')">パスワードは8文字以上で入力してください。</div>
-              <div id="password-help" class="form-text text-muted" v-bind:class="{ 'd-none': regist }"><a href="#">パスワードを忘れた？？</a></div>
-            </div>
-            <div class="form-check custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="save" v-model="save">
-              <label class="custom-control-label" for="save">ログイン情報を保持</label>
-            </div>
-            <div class="form-check custom-control custom-checkbox"><!-- custom-control-inline -->
-              <input type="checkbox" class="custom-control-input dropdown-toggle" id="regist" v-model="regist" v-bind:class="{ 'is-invalid': errors.has('unregist') }" role="button" data-toggle="collapse" aria-expanded="false">
-              <label class="custom-control-label" for="regist">新規登録</label>
-              <span class="invalid-tooltip">登録できませんでした、既に登録されている可能性があります。</span>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">閉じる</button>
-            <button class="form-control btn btn-primary" type="button" v-on:click="login" v-bind:class="{ 'is-invalid': errors.has('notification') || errors.has('regist_error') }">ログイン</button>
-            <span class="invalid-tooltip" v-show="errors.has('notification')">入力エラーがあります。</span>
-            <span class="invalid-tooltip" v-show="errors.has('regist_error')">@{{ errors.first('regist_error') }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <mirai-login v-bind:user="user"></mirai-login>
   </form>
   <!-- Modal Auth Floating Form -->
   <form id="auth">
-    <div tabindex="-1" class="modal fade" id="auth-modal" role="dialog" aria-hidden="true" aria-labelledby="auth-title" style="display: none;">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content bg-dark text-light shadow-lg">
-          <div class="modal-header p-2 pl-3">
-            <h4 class="modal-title" id="auth-title">Google認証</h4>
-            <button class="close" aria-label="Close" type="button" data-dismiss="modal" style="margin-top: -0.55em; margin-right: -0.25em;">
-              <span class="text-light" aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="form-group mb-2">
-              <label for="code">認証コード</label>
-              <input type="text" class="form-control form-control-lg bg-dark text-light" id="code" name="code" placeholder="Google認証コードを入力してください。"  v-model="code" v-bind:class="{ 'is-invalid': errors.has('code') }" v-validate="'required'" required>
-              <div class="invalid-feedback" v-if="errors.has('code')">Google認証後に表示される認証コードを入力してください。</div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">閉じる</button>
-            <button class="form-control btn btn-primary" type="button" v-if="code" v-on:click="auth" v-bind:class="{ 'is-invalid': errors.has('code') }">認証コード入力</button>
-            <button class="form-control btn btn-primary" type="button" v-if="!code" v-on:click="open">認証画面を開く</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <mirai-drive-auth v-bind:user="user" v-bind:auth-url="authUrl" v-bind:gtoken="gtoken"></mirai-drive-auth>
   </form>
   <input type="hidden" id="delegate-markdown" />
   <!-- Scripts -->

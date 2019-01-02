@@ -16,12 +16,6 @@ import 'es6-promise/auto';
 // import VeeValidate
 import VeeValidate, { Validator } from'vee-validate';
 
-//import Editor from 'tui-editor';
-import Editor from 'tui-editor/dist/tui-editor-Editor-all.js';
-
-// import js-cookie
-import Cookies from 'js-cookie';
-
 // import iziModal
 //import iziModal from 'izimodal/js/iziModal';
 //$.fn.iziModal = iziModal;
@@ -36,15 +30,8 @@ window.Vue.use(Vuex);
 // use VeeValidate
 window.Vue.use(VeeValidate);
 
-const axiosBase = require('axios');
-const axios = axiosBase.create({
-  baseURL: 'http://127.0.0.1:8000', // バックエンドB のURL:port を指定する
-  headers: {
-    'Content-Type': 'application/json',
-    'X-Requested-With': 'XMLHttpRequest'
-  },
-  responseType: 'json'
-});
+// use axios
+import { axios } from './axios-base';
 
 /**
  * The following block of code may be used to automatically register your
@@ -61,18 +48,6 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
 // files.keys().map(key => {
 //     return Vue.component(_.last(key.split('/')).split('.')[0], files(key))
 // })
-
-// const editor = new Editor({
-//   el: document.querySelector('#edit-section'),
-//   //viewer: true,
-//   initialEditType: 'markdown',
-//   useCommandShortcut: true,
-//   previewStyle: 'vertical',
-//   height: '100%',
-//   initialValue: '',
-//   language: 'ja',
-//   exts: ['scrollSync', 'colorSyntax', 'uml', 'chart', 'mark', 'table']
-// });
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -115,89 +90,28 @@ const app = new Vue({
 });
 
 const updateDelegateMarkdown = function() {
-  // FIXME かり処理
-  console.log(store.state.editor.getMarkdown());
   $("#delegate-markdown").val(store.state.editor.getMarkdown());
 }
+const findDelegateMarkdown = function() {
+  store.state.editor.setMarkdown($("#delegate-markdown").val(), false/*cursorToEndopt*/);
+}
 
-const store = new Vuex.Store({
-  state: {
-    user: null,
-    editor: new Editor({
-      el: document.querySelector('#edit-section'),
-      //viewer: true,
-      initialEditType: 'markdown',
-      useCommandShortcut: true,
-      previewStyle: 'vertical',
-      height: '100%',
-      initialValue: '',
-      language: 'ja',
-      exts: ['scrollSync', 'colorSyntax', 'uml', 'chart', 'mark', 'table'],
-      events: {change: function() {
-        //console.log("change markdown.");
-        if (store.state.user)
-          store.state.user.markdown = store.state.editor.getMarkdown();
-          //console.log("update markdown.");
-      }, blur: function() {
-        updateDelegateMarkdown(); // かり処理
+// use editor
+import { editor } from './editor';
 
-        if(store.state.user) {
-          axios.post('/api/update', store.state.user)
-            .then(function(response) {
-              //alert(JSON.stringify(response.data));
-              if(response.data.update) {
-                console.log('markdown update ok.');
-              } else {
-                console.log('markdown update ng.');
-              }
-            }.bind(this))// thisを使う
-            .catch(function(error) {
-              console.log('ERROR!! occurred in Backend.');
-            }.bind(this));// thisを使う
-        }
-      }}
-    }),
-    authUrl: null,
-  },
-  // Storeに対するGetterを定義
-  getters: {
-    user(state) {
-      return state.user;
-    },
-    editor(state) {
-      return state.editor;
-    },
-    editorMarkdown(state) {
-      return state.editor.getMarkdown();
-    },
-    authUrl(state) {
-      return state.authUrl;
-    },
-  },
-  // Storeに対するActionを定義
-  actions: {
-    setUser (context, user) {
-      context.commit('SET_USER', user); // Actionはmutationsを呼ぶ
-    },
-    setMarkdown (context, markdown) {
-      context.commit('SET_MARKDOWN', markdown); // Actionはmutationsを呼ぶ
-    },
-    setAuthUrl (context, authUrl) {
-      context.commit('SET_AUTHURL', authUrl); // Actionはmutationsを呼ぶ
-    },
-  },
-  mutations: {
-    SET_USER (state, user) {
-      state.user = user;
-      state.editor.setMarkdown(state.user.markdown, false/*cursorToEndopt*/);
-    },
-    SET_MARKDOWN (state, markdown) {
-      state.editor.setMarkdown(markdown, false/*cursorToEndopt*/);
-    },
-    SET_AUTHURL (state, authUrl) {
-      state.authUrl = authUrl;
-    }
-  },
+// use main store
+import mainStore from './store/main';
+export const store = new Vuex.Store(mainStore);
+
+// set editor
+store.dispatch('setEditor', editor);
+
+// set editor event
+editor.on("change", function() {
+  store.dispatch('updateMarkdown');
+});
+editor.on("blur", function() {
+  store.dispatch('updateUser');
 });
 
 // ログインユーザ情報の監視
@@ -206,184 +120,101 @@ store.watch(function(state, getter){
 }, function(){
   const user = store.state.user;
   if(user) {
-    // login ok.
-    // change login icon
-    $("#link-login .mdi-tr.mdi-close-circle.text-danger")
-      .removeClass(['mdi-close-circle', 'text-danger'])
-      .addClass(['mdi-check-circle', 'text-success']);
-    
     if (user.api_token) {
+      // auth update.
       window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + user.api_token;
     }
-    if (user.gtoken) {
-      // google login ok.
-      $("#link-login-google .mdi-tr.mdi-close-circle.text-danger")
-        .removeClass(['mdi-close-circle', 'text-danger'])
-        .addClass(['mdi-check-circle', 'text-success']);
-      $('#link-login-google').removeClass('d-none');
-
-    } else {
-      // Google認証を実行する
-      axios.post('/api/drive/auth', { web: true })
-        .then(function(response) {
-          //alert(JSON.stringify(response.data));
-          if(response.data.authUrl) {
-            store.dispatch('setAuthUrl', response.data.authUrl);
-          }
-        }.bind(this))// thisを使う
-        .catch(function(error) {
-          console.log('ERROR!! occurred in Backend.');
-        }.bind(this));// thisを使う
-    }
+    // Google認証を実行する
+    axios.post('/api/drive/auth', { web: true })
+      .then(function(response) {
+        //alert(JSON.stringify(response.data));
+        if(response.data.authUrl) {
+          store.dispatch('setAuthUrl', response.data.authUrl);
+        }
+      }.bind(this))// thisを使う
+      .catch(function(error) {
+        console.log('ERROR!! occurred in Backend. (login, drive/auth)', error);
+      }.bind(this));// thisを使う
+    
+  } else {
+    // auth clear.
+    window.axios.defaults.headers.common['Authorization'] = null;
   }
 }, {immediate: true, deep: true});
 
-// Google認証URLを監視
-store.watch(function(state, getter){
-  return getter.authUrl;
-}, function(){
-  const authUrl = store.state.authUrl;
-  if(authUrl) {
-    $('#link-login-google').removeClass('d-none');
-  }
+import miraiMenu from './components/MenuSidebar.vue';
+const menu = new Vue({
+  el: '#menu',
+  store: store,
+  computed: {
+    user: {
+      get () {
+        return this.$store.state.user;
+      },
+      set (value) {
+        this.$store.dispatch('setUser', value);
+      }
+    },
+  },
+  components: { miraiMenu },
 });
 
+import miraiLogin from './components/Login.vue';
 const login = new Vue({
   el: '#login',
   store: store,
-  data: {
-    name: null,
-    email: null,
-    password: null,
-    password_confirmation: null,
-    save: true,
-    regist: false
-  },
-  created() {
-    // メッセージを日本語に設定する
-    this.$validator.localize('ja');
-
-    // Cookieに保存されていた情報を取得する
-    this.email = Cookies.get("email");
-    this.password = Cookies.get("password");
-  },
-  watch: {
-    regist: function(_new, _old) {
-      if (_new) {
-        // 新規登録のとき
-
-      }
-    }
-  },
-  methods: {
-    saveCookie: function() {
-      if($('#save').is(':checked')) {
-        // FIXME かり処理
-        Cookies.set('email', this.email, { path: '/', expires: 365 });
-        Cookies.set('password', this.password, { path: '/', expires: 365 });
+  computed: {
+    user: {
+      get () {
+        return this.$store.state.user;
+      },
+      set (value) {
+        this.$store.dispatch('setUser', value);
       }
     },
-    login: function() {
-      // alert("email="+this.email+",password="+this.password+",save="+this.save+",regist="+this.regist);
-      
-      // バリデーションする
-      this.$validator.errors.remove('notification');
-      this.$validator.errors.remove('unmatch');
-      this.$validator.errors.remove('unregist');
-
-      this.$validator.validateAll().then((result) => {
-        if ( this.regist && !result ) {
-          // 新規登録で入力エラー
-          this.$validator.errors.add({field: 'notification', msg: 'msg'});
-          return false;
-        } else if ( !this.regist && (this.$validator.errors.has('email') || this.$validator.errors.has('password')) ) {
-          // ログインで入力エラー
-          this.$validator.errors.add({field: 'notification', msg: 'msg'});
-          return false;
-        }
-      });
-
-      if (this.regist) {
-        // ユーザ登録する
-        axios.post('/api/register', { name: this.name, email: this.email, password: this.password, password_confirmation: this.password_confirmation })
-          .then(function(response) {
-            // alert(JSON.stringify(response.data));
-            if(response.data.register) {
-              $('#login-modal').modal('hide');
-              this.$store.dispatch('setUser', response.data.user);
-              updateDelegateMarkdown(); // かり処理
-              login.saveCookie();
-            } else {
-              this.$validator.errors.add({field: 'unregist', msg: 'msg'});
-            }
-          }.bind(this))// thisを使う
-          .catch(function(error) {
-            console.log('ERROR!! occurred in Backend.');
-            // errorを展開する alert(error.response.data.errors.email[0]);
-            Object.keys(error.response.data.errors).forEach(function(errorObjKey){
-              error.response.data.errors[errorObjKey].forEach(function(errorObj, index, ar){
-                this.$validator.errors.add({field: 'regist_error', msg: errorObj});
-              }, this);
-            }, this);
-          }.bind(this));// thisを使う
-      } else {
-        // ユーザ認証する
-        axios.post('/api/login', { email: this.email, password: this.password })
-          .then(function(response) {
-            //alert(JSON.stringify(response.data));
-            if(response.data.auth) {
-              $('#login-modal').modal('hide');
-              this.$store.dispatch('setUser', response.data.user);
-              this.$store.dispatch('setMarkdown', response.data.user.markdown);
-              updateDelegateMarkdown(); // かり処理
-              login.saveCookie();
-            } else {
-              this.$validator.errors.add({field: 'unmatch', msg: 'msg'});
-            }
-          }.bind(this))// thisを使う
-          .catch(function(error) {
-            console.log('ERROR!! occurred in Backend.');
-          }.bind(this));// thisを使う
-      }
-    }
-  }
+  },
+  components: { miraiLogin },
 });
 
+import miraiDriveAuth from './components/DriveAuth.vue';
 const auth = new Vue({
   el: '#auth',
   store: store,
-  data: {
-    code: null
-  },
-  created() {
-    // メッセージを日本語に設定する
-    this.$validator.localize('ja');
-  },
-  methods: {
-    open: function() {
-      // Google認証ウィンドウを開く
-      window.open(this.$store.state.authUrl, 'auth');
+  computed: {
+    authUrl: {
+      get () {
+        return this.$store.state.authUrl;
+      }
     },
-    auth: function() {
-      this.$validator.validateAll().then((result) => {
-        if (!result ) return false;
-      });
-      // Google認証を実行する
-      axios.post('/api/drive/auth', { code: this.code, web: true })
-        .then(function(response) {
-          alert(JSON.stringify(response.data));
-          if(response.data.auth) {
-            // レスポンス後に開き直す
-            //alert("認証OK");
-            $('#auth-modal').modal('hide');
-          }
-      }.bind(this))// thisを使う
-      .catch(function(error) {
-        console.log('ERROR!! occurred in Backend.');
-      }.bind(this));// thisを使う
-    }
-  }
+    user: {
+      get () {
+        return this.$store.state.user;
+      },
+      set (value) {
+        this.$store.dispatch('setUser', value);
+      }
+    },
+    gtoken: {
+      get () {
+        return this.$store.getters.gtoken;
+      }
+    },
+  },
+  components: { miraiDriveAuth },
 });
+
+// import mdPresentation from './components/Presentation.vue';
+// // const mdPresentation = Vue.component('md-presentation', require('./components/Presentation.vue')); //component name should be in camel-case
+
+// const presentation = new Vue({
+//   el: '#presentation',
+//   store: store,
+//   components: { mdPresentation },
+//   data: {
+//     dnone: false,
+//     title: "title1-1",
+//   },
+// });
 
 $(function(){
   // haloContext 右クリックメニューを表示 _pthisや_peで右クリックされた要素を特定
@@ -405,11 +236,10 @@ $(function(){
   $('.sidebar-modal .close').on('click', function(){
     $('.sidebar-modal').addClass('d-none');
     $('.sidebar-modal iframe').attr('src', null);
-
-    // FIXME かり処理
-    store.state.editor.setMarkdown($("#delegate-markdown").val(), false/*cursorToEndopt*/);
+    findDelegateMarkdown();
   });
   $('#link-slide-mode').on('click', function(){
+    updateDelegateMarkdown();
     $('.sidebar-modal').removeClass('d-none');
     $('.sidebar-modal iframe').attr('src', $(this).data("url"));
   });
