@@ -56,11 +56,16 @@
   <div class="mw-100 w-100 mhv-100 hv-100 of-hidden d-flex flex-column">
     <div class="sidebar-wrapper">
       <!-- Sidebar1  -->
-      <nav class="sidebar bg-secondary simple always" id="menu">
+      <nav class="sidebar bg-secondary simple always shadow" id="menu">
         <mirai-menu v-bind:user="user"></mirai-menu>
       </nav>
       <!-- Sidebar3  -->
-      <nav class="sidebar bg-dark floating-2" id="filetree">
+      <nav class="sidebar bg-dark floating-2 shadow" id="filetree">
+        <div class="sidebar-toolbar btn-group sticky-top text-light shadow w-100" role="group">
+          <button class="btn btn-dark text-center align-middle"><i class="mdi mdi-refresh"></i></button>
+          <button class="btn btn-dark text-center align-middle"><i class="mdi mdi-folder-outline"></i><i class="mdi mdi-tr mdi-plus-circle  text-info font-weight-bold"></i></button>
+          <button class="btn btn-dark text-center align-middle"><i class="mdi mdi-file-outline"></i><i class="mdi mdi-tr mdi-plus-circle  text-info font-weight-bold"></i></button>
+        </div>
         <div class="sticky-top of-y-auto mhp-100 hp-100">
           <ul class="list-unstyled list-tree">
             <li>
@@ -238,7 +243,7 @@
         </div>
       </nav>
       <!-- Sidebar2  -->
-      <nav class="sidebar bg-dark none-toggle of-y-auto floating-2" id="headline">
+      <nav class="sidebar bg-dark none-toggle of-y-auto floating-2 shadow" id="headline">
         <div class="sticky-top of-y-auto mhp-100 hp-100">
           <ul class="list-unstyled">
             <li>
@@ -412,7 +417,7 @@
         <div class="sticky-top">
           <ul class="list-unstyled">
             <li>
-              <a class="text-dark" id="link-slide-mode" data-url="revealjs/revealjs.html">
+              <a href="#" class="text-dark" id="link-slide-mode" data-url="revealjs/revealjs.html">
                 <i class="mdi mdi-presentation"></i>
                 Slide Mode
               </a>
@@ -457,7 +462,7 @@
         </div>
       </nav>
     </div>
-    <div class="sidebar-fotter bg-info mw-100 w-100 d-flex flex-row justify-content-between">
+    <div class="sidebar-fotter bg-info mw-100 w-100 d-flex flex-row justify-content-between shadow">
       <div class="flex-shrink-0 text-left pl-2 text-light">{{ __('Welcome!!!') }}</div>
       <div class="flex-shrink-1 text-center pr-1 pl-1 text-light"></div>
       <div class="flex-shrink-0 text-right pr-2 text-light">{{ config('app.name', 'Laravel') }}&nbsp;{{ config('app.version', '1.0') }}</div>

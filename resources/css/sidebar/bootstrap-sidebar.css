@@ -73,6 +73,8 @@
   font-size: 0.9em;
   display: block;
   position: relative;
+  box-sizing: border-box;
+  border: solid 1px transparent;
 }
 .sidebar ul li a i {
   margin: 0 0.5em;
@@ -248,8 +250,9 @@
   background: rgba(0, 0, 0, 0.35);
 }
 .sidebar ul li a:hover:not(.file) {
-  background: rgba(0, 0, 0, 0.15);
-  text-decoration: underline;
+  background: rgba(0, 0, 0, 0.25);
+  /*text-decoration: underline;*/
+  border: solid 1px rgba(0, 0, 0, 0.25);
 }
 /* サイドバー切り替えボタン用の右三角 */
 .sidebar .sidebar-toggle::after {
@@ -396,6 +399,25 @@
   right: 0.08em;
   font-size: 2.4em;
 }
-.sidebar i.mdi {
+.sidebar .mdi {
   line-height: 1;
+}
+
+.sidebar-toolbar {
+  height: 2.27em;
+}
+.sidebar-toolbar .btn {
+  border-radius: 0;
+}
+.sidebar-toolbar .mdi {
+  font-size: 1.25em;
+}
+.sidebar-toolbar .mdi-tr {
+  top: 0.1em;
+  right: 0.08em;
+  font-size: 1em;
+}
+.sidebar .sidebar-toolbar + .sticky-top.hp-100 {
+  max-height: calc(100% - 2.27em) !important;
+  height: calc(100% - 2.27em) !important;
 }
