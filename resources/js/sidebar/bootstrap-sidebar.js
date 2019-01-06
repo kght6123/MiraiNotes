@@ -1,5 +1,5 @@
 $(function(){
-  $('.dropdown-toggle.open').click();// デフォルトで開く
+  //$('.dropdown-toggle.open').click();// デフォルトで開く
   // サイドバーの表示・非表示を切り替えるイベントを設定する
   $(".sidebar-ctrl,.sidebar-window-ctrl > .btn").on("click mouseover", function(_event) {
     if (window.matchMedia('(max-width:576px)').matches) {/* 576px以下 xs */
@@ -39,5 +39,16 @@ $(function(){
     $($(targetEl).data("target")).toggleClass("none-toggle");
     $(targetEl).toggleClass("reverse");
     $(targetEl).toggleClass("active");
+  });
+  // モーダルウィンドウを閉じるイベント
+  $('.sidebar-modal .close').on('click.s-modal', function(){
+    $('.sidebar-modal').addClass('d-none');
+    $('.sidebar-modal iframe').attr('src', null);
+  });
+  // モーダルウィンドウを開くイベント
+  $('[data-url][data-target]').on('click.s-modal', function(){
+    var target = $(this).data("target");
+    $(target).removeClass('d-none');
+    $(target + ' iframe').attr('src', $(this).data("url"));
   });
 });

@@ -33,6 +33,30 @@ window.Vue.use(VeeValidate);
 // use axios
 import { axios } from './axios-base';
 
+// Add a request interceptor
+axios.interceptors.request.use(
+  function (config) {
+    console.log('Request OK config.', config);
+    return Promise.resolve(config);
+  },
+  function (error) {
+    console.error('Request Error status.', error);
+    return Promise.reject(error);
+});
+
+// Add a response interceptor
+axios.interceptors.response.use(
+  function (response) {
+    // Do something with response data
+    console.log('Response OK status.', response.status);
+    return Promise.resolve(response);// responseで返す正常なPromise処理を返す
+  },
+  function　(error) {
+    // Do something with response error
+    console.error('Response Error status.', error.response.status);
+    return Promise.reject(error);// errorで返す異常なPromise処理を返す
+});
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -41,7 +65,7 @@ import { axios } from './axios-base';
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+// Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
 // const files = require.context('./', true, /\.vue$/i)
 
@@ -54,40 +78,40 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-const app = new Vue({
-  el: '#app',
-  methods: {
-    hello: function() {
-      alert("Hello!");
+// const app = new Vue({
+//   el: '#app',
+//   methods: {
+//     hello: function() {
+//       alert("Hello!");
 
-      axios.get('/api/user')
-        .then(function(response) {
-          alert(JSON.stringify(response.data));
-        })
-        .catch(function(error) {
-          console.log('ERROR!! occurred in Backend.')
-        });
-    }
-  },
-  mounted() {
-    // const params = { path : 'welcome.md' };
-    // const url = "http://"+this.backend+"/gdrive";
+//       axios.get('/api/user')
+//         .then(function(response) {
+//           alert(JSON.stringify(response.data));
+//         })
+//         .catch(function(error) {
+//           console.log('ERROR!! occurred in Backend.')
+//         });
+//     }
+//   },
+//   mounted() {
+//     // const params = { path : 'welcome.md' };
+//     // const url = "http://"+this.backend+"/gdrive";
 
-    // axios.get(url, { params })
-    //   .then(response => { // thenで成功した場合の処理をかける
-    //     console.log(response.data);        // レスポンスデータ
-    //     console.log(response.status);      // ステータスコード
-    //     console.log(response.statusText);  // ステータステキスト
-    //     console.log(response.headers);     // レスポンスヘッダ
-    //     console.log(response.config);      // コンフィグ
-    //     editor.setMarkdown(response.data.value, false);
-    //   })
-    //   .catch(err => { // catchでエラー時の挙動を定義する
-    //     this.results = err;
-    //     console.log('err:', err);
-    //   });
-  }
-});
+//     // axios.get(url, { params })
+//     //   .then(response => { // thenで成功した場合の処理をかける
+//     //     console.log(response.data);        // レスポンスデータ
+//     //     console.log(response.status);      // ステータスコード
+//     //     console.log(response.statusText);  // ステータステキスト
+//     //     console.log(response.headers);     // レスポンスヘッダ
+//     //     console.log(response.config);      // コンフィグ
+//     //     editor.setMarkdown(response.data.value, false);
+//     //   })
+//     //   .catch(err => { // catchでエラー時の挙動を定義する
+//     //     this.results = err;
+//     //     console.log('err:', err);
+//     //   });
+//   }
+// });
 
 const updateDelegateMarkdown = function() {
   $("#delegate-markdown").val(store.state.editor.getMarkdown());
@@ -157,6 +181,23 @@ const menu = new Vue({
     },
   },
   components: { miraiMenu },
+});
+
+import miraiFileTree from './components/FileTreeSidebar.vue';
+const filetree = new Vue({
+  el: '#filetree',
+  store: store,
+  computed: {
+    user: {
+      get () {
+        return this.$store.state.user;
+      },
+      set (value) {
+        this.$store.dispatch('setUser', value);
+      }
+    },
+  },
+  components: { miraiFileTree },
 });
 
 import miraiLogin from './components/Login.vue';
@@ -233,14 +274,10 @@ $(function(){
     ],
     options : {}
   });
-  $('.sidebar-modal .close').on('click', function(){
-    $('.sidebar-modal').addClass('d-none');
-    $('.sidebar-modal iframe').attr('src', null);
+  $('#slide-modal .close').on('click', function(){
     findDelegateMarkdown();
   });
   $('#link-slide-mode').on('click', function(){
     updateDelegateMarkdown();
-    $('.sidebar-modal').removeClass('d-none');
-    $('.sidebar-modal iframe').attr('src', $(this).data("url"));
   });
 });
