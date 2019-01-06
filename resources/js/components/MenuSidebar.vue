@@ -21,8 +21,8 @@
       </li-->
       <li>
         <a href="#" class="text-light sidebar-toggle reverse active" data-target="#filetree">
-          <i class="oi oi-list"></i>
-          ツリー
+          <i class="mdi mdi-folder-multiple-outline"></i>
+          フォルダ
         </a>
       </li>
       <li>

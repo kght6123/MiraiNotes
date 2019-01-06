@@ -25,7 +25,7 @@
   <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body data-spy="scroll" data-target=".floating-2" data-offset="60" class="of-hidden">
-  <div class="sidebar-modal d-none">
+  <div id="slide-modal" class="sidebar-modal d-none">
     <div class="mwv-75 mhv-75 wv-75 hv-75">
       <div class="text-right"><i class="close mdi mdi-close text-light"></i></div>
       <iframe class="border-0 mw-100 w-100 mh-100 h-100 shadow-lg"></iframe>
@@ -56,191 +56,12 @@
   <div class="mw-100 w-100 mhv-100 hv-100 of-hidden d-flex flex-column">
     <div class="sidebar-wrapper">
       <!-- Sidebar1  -->
-      <nav class="sidebar bg-secondary simple always shadow" id="menu">
+      <nav class="sidebar bg-secondary simple always" id="menu">
         <mirai-menu v-bind:user="user"></mirai-menu>
       </nav>
       <!-- Sidebar3  -->
       <nav class="sidebar bg-dark floating-2 shadow" id="filetree">
-        <div class="sidebar-toolbar btn-group sticky-top text-light shadow w-100" role="group">
-          <button class="btn btn-dark text-center align-middle"><i class="mdi mdi-refresh"></i></button>
-          <button class="btn btn-dark text-center align-middle"><i class="mdi mdi-folder-outline"></i><i class="mdi mdi-tr mdi-plus-circle  text-info font-weight-bold"></i></button>
-          <button class="btn btn-dark text-center align-middle"><i class="mdi mdi-file-outline"></i><i class="mdi mdi-tr mdi-plus-circle  text-info font-weight-bold"></i></button>
-        </div>
-        <div class="sticky-top of-y-auto mhp-100 hp-100">
-          <ul class="list-unstyled list-tree">
-            <li>
-              <div class="btn-group dropdown w-100">
-                <a href="#fileTree1" class="text-light dropdown-toggle dropdown-toggle-split open"
-                  role="button" data-toggle="collapse" aria-expanded="false"></a>
-                <a href="#" class="nav-link text-light w-100">
-                  <i class="oi oi-folder"></i>
-                  Dir
-                </a>
-              </div>
-              <ul class="collapse list-unstyled" id="fileTree1" data-parent=".sidebar">
-                <li>
-                  <div class="btn-group dropdown w-100">
-                    <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
-                    <a href="#" class="nav-link text-light w-100">
-                      <i class="oi oi-file"></i>
-                      File.md
-                    </a>
-                  </div>
-                </li>
-                <li>
-                  <div class="btn-group dropdown w-100">
-                    <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
-                    <a href="#" class="nav-link text-light w-100">
-                      <i class="oi oi-file"></i>
-                      File.md
-                    </a>
-                  </div>
-                </li>
-                <li>
-                  <div class="btn-group dropdown w-100">
-                      <a href="#fileTree2" class="text-light dropdown-toggle dropdown-toggle-split open"
-                        role="button" data-toggle="collapse" aria-expanded="false"></a>
-                      <a href="#" class="nav-link text-light w-100">
-                        <i class="oi oi-folder"></i>
-                        Dir
-                      </a>
-                  </div>
-                  <ul class="collapse list-unstyled" id="fileTree2" data-parent=".sidebar">
-                    <li>
-                      <div class="btn-group dropdown w-100">
-                        <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
-                        <a href="#" class="nav-link text-light w-100">
-                          <i class="oi oi-file"></i>
-                          File.md
-                        </a>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="btn-group dropdown w-100">
-                        <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
-                        <a href="#" class="nav-link text-light w-100">
-                          <i class="oi oi-file"></i>
-                          File.md
-                        </a>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="btn-group dropdown w-100">
-                          <a href="#fileTree3" class="text-light dropdown-toggle dropdown-toggle-split open"
-                            role="button" data-toggle="collapse" aria-expanded="false"></a>
-                          <a href="#" class="nav-link text-light w-100">
-                            <i class="oi oi-folder"></i>
-                            Dir
-                          </a>
-                      </div>
-                      <ul class="collapse list-unstyled" id="fileTree3" data-parent=".sidebar">
-                        <li>
-                          <div class="btn-group dropdown w-100">
-                            <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
-                            <a href="#" class="nav-link text-light w-100">
-                              <i class="oi oi-file"></i>
-                              File.md
-                            </a>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="btn-group dropdown w-100">
-                            <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
-                            <a href="#" class="nav-link text-light w-100">
-                              <i class="oi oi-file"></i>
-                              File.md
-                            </a>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="btn-group dropdown w-100">
-                            <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
-                            <a href="#" class="nav-link text-light w-100">
-                              <i class="oi oi-file"></i>
-                              File.md
-                            </a>
-                          </div>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <div class="btn-group dropdown w-100">
-                    <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
-                    <a href="#" class="nav-link text-light w-100">
-                      <i class="oi oi-file"></i>
-                      File.md
-                    </a>
-                  </div>
-                </li>
-                <li>
-                  <div class="btn-group dropdown w-100">
-                    <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
-                    <a href="#" class="nav-link text-light w-100">
-                      <i class="oi oi-file"></i>
-                      File.md
-                    </a>
-                  </div>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <div class="btn-group dropdown w-100">
-                <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
-                <a href="#" class="nav-link text-light w-100">
-                  <i class="oi oi-file"></i>
-                  File.md
-                </a>
-              </div>
-            </li>
-            <li>
-              <div class="btn-group dropdown w-100">
-                <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
-                <a href="#" class="nav-link text-light w-100">
-                  <i class="oi oi-file"></i>
-                  File.md
-                </a>
-              </div>
-            </li>
-            <li>
-              <div class="btn-group dropdown w-100">
-                <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
-                <a href="#" class="nav-link text-light w-100">
-                  <i class="oi oi-file"></i>
-                  File.md
-                </a>
-              </div>
-            </li>
-            <li>
-              <div class="btn-group dropdown w-100">
-                <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
-                <a href="#" class="nav-link text-light w-100">
-                  <i class="oi oi-file"></i>
-                  File.md
-                </a>
-              </div>
-            </li>
-            <li>
-              <div class="btn-group dropdown w-100">
-                <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
-                <a href="#" class="nav-link text-light w-100">
-                  <i class="oi oi-file"></i>
-                  File.md
-                </a>
-              </div>
-            </li>
-            <li>
-              <div class="btn-group dropdown w-100">
-                <a class="text-light dropdown-toggle dropdown-toggle-split file"></a>
-                <a href="#" class="nav-link text-light w-100">
-                  <i class="oi oi-file"></i>
-                  File.md
-                </a>
-              </div>
-            </li>
-          </ul>
-        </div>
+        <mirai-file-tree v-bind:user="user"></mirai-file-tree>
       </nav>
       <!-- Sidebar2  -->
       <nav class="sidebar bg-dark none-toggle of-y-auto floating-2 shadow" id="headline">
@@ -417,7 +238,7 @@
         <div class="sticky-top">
           <ul class="list-unstyled">
             <li>
-              <a href="#" class="text-dark" id="link-slide-mode" data-url="revealjs/revealjs.html">
+              <a href="#" class="text-dark" id="link-slide-mode" data-url="revealjs/revealjs.html" data-target="#slide-modal">
                 <i class="mdi mdi-presentation"></i>
                 Slide Mode
               </a>
@@ -462,7 +283,7 @@
         </div>
       </nav>
     </div>
-    <div class="sidebar-fotter bg-info mw-100 w-100 d-flex flex-row justify-content-between shadow">
+    <div class="sidebar-fotter bg-info mw-100 w-100 d-flex flex-row justify-content-between">
       <div class="flex-shrink-0 text-left pl-2 text-light">{{ __('Welcome!!!') }}</div>
       <div class="flex-shrink-1 text-center pr-1 pl-1 text-light"></div>
       <div class="flex-shrink-0 text-right pr-2 text-light">{{ config('app.name', 'Laravel') }}&nbsp;{{ config('app.version', '1.0') }}</div>
