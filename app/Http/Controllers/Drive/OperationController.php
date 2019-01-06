@@ -29,8 +29,8 @@ class OperationController extends Controller {
         // Google_Clientの生成
         $client = new Google_Client();
         $client->setApplicationName('kght6123/MiraiNotes');
-        $client->addScope(Google_Service_Drive::DRIVE);
-        $client->addScope(Google_Service_Tasks::TASKS);
+        $client->addScope(Google_Service_Drive::DRIVE_APPDATA/*DRIVE*/);
+        //$client->addScope(Google_Service_Tasks::TASKS);
         $client->setIncludeGrantedScopes(true);
         $client->setAuthConfig($credentialsFilePath);
         $client->setAccessType('offline');
@@ -54,12 +54,32 @@ class OperationController extends Controller {
             $user = Auth::User();
             $user->gtoken = json_encode($accessToken);
             $user->save();
-        } else if (!empty($user->gtoken)) {
+        } else if (!empty(Auth::User()->gtoken)) {
             // set user gtoken.
             $client->setAccessToken(json_decode(Auth::User()->gtoken, true));
         }
         return $client;
     }
+
+    /**
+     * check google access token.
+     */
+    private function checkToken(Google_Client $client): ?String {
+
+        if ($client->isAccessTokenExpired()) {
+            // expired AccessToken.
+            $refreshToken = $client->getRefreshToken();
+            if ($refreshToken) {
+                // refresh AccessToken.
+                $client->fetchAccessTokenWithRefreshToken($refreshToken);
+            } else {
+                // create AuthUrl.
+                return $client->createAuthUrl();
+            }
+        }
+        return null;
+    }
+
     /**
      * get google drive client.
      * 
@@ -67,7 +87,9 @@ class OperationController extends Controller {
      * @return Google_Service_Drive
      */
     private function getDrive(Request $request): Google_Service_Drive {
-        return new Google_Service_Drive($this->getClient($request));
+        $client = $this->getClient($request);
+        $this->checkToken($client);
+        return new Google_Service_Drive($client);
     }
     /**
      * get google drive file.
@@ -126,20 +148,12 @@ class OperationController extends Controller {
             // exits credentials file.
             $client = $this->getClient($request);
 
-            if ($client->isAccessTokenExpired()) {
-                // expired AccessToken.
-                if ($client->getRefreshToken()) {
-                    // refresh AccessToken.
-                    $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
-                } else {
-                    // create AuthUrl.
-                    $result['authUrl'] = $client->createAuthUrl();
-                }
-            }
+            // check token and create AuthUrl.
+            $result['authUrl'] = $this->checkToken($client);
+
             // auth ok.
             $result['auth'] = true;
             $result['gtoken'] = Auth::User()->gtoken;
-
         } else {
             // auth ng.
             $result['auth'] = false;
