@@ -18,7 +18,8 @@
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">閉じる</button>
           <button class="form-control btn btn-primary" type="button" v-if="code" v-on:click="auth" v-bind:class="{ 'is-invalid': errors.has('code') }">認証コード入力</button>
-          <button class="form-control btn btn-primary" type="button" v-if="!code" v-on:click="open">認証画面を開く</button>
+          <button class="form-control btn btn-primary" type="button" v-if="!code && (authUrl || reAuthUrl)" v-on:click="open">認証画面を開く</button>
+          <button class="form-control btn btn-primary" type="button" v-if="!code && gtoken && !reAuthUrl" v-on:click="reauth">再認証する</button>
         </div>
       </div>
     </div>
@@ -27,6 +28,7 @@
 
 <script>
 import * as types from '../store/mutation-types';
+import { out_console } from '../axios/axios-errors';
 
 export default {
   created() {
@@ -34,12 +36,25 @@ export default {
     this.$validator.localize('ja');
   },
   data: function() {
-    return { code: null };
+    return { code: null, reAuthUrl: null };
   },
   methods: {
     open: function() {
-      // Google認証ウィンドウを開く
-      window.open(this.authUrl, 'auth');
+      var url = this.reAuthUrl ? this.reAuthUrl : this.authUrl;
+      if(url) {
+        // Google認証ウィンドウを開く
+        window.open(url, 'auth');
+      }
+    },
+    reauth: function() {
+      // Google再認証のURLを取得する
+      axios.post('/api/drive/auth', { authUrl: true, web: true })
+        .then(function(response) {
+          this.reAuthUrl = response.data.authUrl;
+      }.bind(this))// thisを使う
+      .catch(function(error) {
+        out_console(error, 'drive, drive/auth (Re)');
+      }.bind(this));// thisを使う
     },
     auth: function() {
       this.$validator.validateAll().then((result) => {
@@ -57,7 +72,7 @@ export default {
           }
       }.bind(this))// thisを使う
       .catch(function(error) {
-        console.log('ERROR!! occurred in Backend. (drive/auth)');
+        out_console(error, 'drive, drive/auth');
       }.bind(this));// thisを使う
     }
   },
