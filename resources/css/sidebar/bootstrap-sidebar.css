@@ -104,10 +104,6 @@
   padding-right: 2em;/* スクロールありのとき、右側を空ける */
 }
 @media (max-width: 576px) {/* 576px以下 xs */
-  .sidebar {
-    min-width: 13em;
-    max-width: 13em;
-  }
   .sidebar ul li a {
     font-size: 0.9em;
   }
@@ -410,11 +406,11 @@
   border-radius: 0;
 }
 .sidebar-toolbar > .btn > .mdi {
-  font-size: 1.25em;
+  font-size: 1em;
 }
 .sidebar-toolbar > .btn > .mdi-tr {
   top: 0.1em;
-  right: calc(50% - 1.25em);
+  right: calc(50% - 1em);
   font-size: 1em;
 }
 .sidebar-toolbar > .btn:focus, .sidebar-toolbar > .btn.focus {
