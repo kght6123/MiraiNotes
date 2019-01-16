@@ -28,8 +28,9 @@ class OperationController extends Controller {
 
         // Google_Clientの生成
         $client = new Google_Client();
-        $client->setApplicationName('kght6123/MiraiNotes');
-        $client->addScope(Google_Service_Drive::DRIVE_APPDATA/*DRIVE*/);
+        $client->setApplicationName('MiraiNotes');
+        $client->addScope(Google_Service_Drive::DRIVE);
+        //$client->addScope(Google_Service_Drive::DRIVE_APPDATA);
         //$client->addScope(Google_Service_Tasks::TASKS);
         $client->setIncludeGrantedScopes(true);
         $client->setAuthConfig($credentialsFilePath);
@@ -42,7 +43,9 @@ class OperationController extends Controller {
                 . strtok($_SERVER["REQUEST_URI"],'?'));
         }
         // set code and accessToken
-        if (file_exists($tokenFilePath) && $request->has('cli')) {
+        if ($request->has('authUrl')) {
+            return $client;
+        } else if (file_exists($tokenFilePath) && $request->has('cli')) {
             $accessToken = json_decode(file_get_contents($tokenFilePath), true);
             $client->setAccessToken($accessToken);
         } else if ($request->has('code')) {
@@ -98,9 +101,14 @@ class OperationController extends Controller {
      * @return Google_Service_Drive_DriveFile
      */
     private function getDriveFile(Request $request): Google_Service_Drive_DriveFile {
-        $driveFileOptKeys = array('name', 'mimeType', 'parents', 'description');
+        $driveFileOptKeys = array('name', 'mimeType', /*'parents',*/ 'description');
         $driveFileOpts = $this->getParamArrayString($request, $driveFileOptKeys);// リクエストパラメータから、DriveFileのパラメータだけ取り出す。
-        return new Google_Service_Drive_DriveFile($driveFileOpts);
+        $file = new Google_Service_Drive_DriveFile($driveFileOpts);
+        if ($request->has('parents')) {
+            // parentsは配列で格納する必要があるんです。
+            $file->setParents((array)$request->input('parents'));
+        }
+        return $file;
     }
     /**
      * get param array string.
@@ -247,7 +255,11 @@ class OperationController extends Controller {
         // get -> ファイルの内容は「webContentLink」からダウンロード？
         $file = $service->files->get($id, $getOpts);
 
-        return $this->toArray($file);
+        if($file instanceof Google_Service_Drive_DriveFile) {
+            return $this->toArray($file);
+        } else {
+            return $file->getBody()->getContents();// GuzzleHttp\Psr7\Response $file->getBody()->getContents()
+        }
     }
 
     /**
