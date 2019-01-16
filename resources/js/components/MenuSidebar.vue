@@ -20,23 +20,23 @@
         </a>
       </li-->
       <li>
-        <a href="#" class="text-light sidebar-toggle reverse active" data-target="#filetree">
+        <a href="#" class="text-light sidebar-toggle" v-bind:class="{ 'd-none': !gtoken, 'reserve active': gtoken }" data-target="#filetree">
           <i class="mdi mdi-folder-multiple-outline"></i>
           フォルダ
         </a>
       </li>
-      <li>
+      <!--li>
         <a href="#" class="text-light sidebar-toggle" data-target="#headline">
           <i class="oi oi-list"></i>
           目次
         </a>
-      </li>
-      <li>
+      </li-->
+      <!--li>
         <a href="#" class="text-light sidebar-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="oi oi-question-mark"></i>
           問合せ
         </a>
-        <!-- ドロップメニューの設定 -->
+        !- ドロップメニューの設定 -
         <div class="dropdown-menu bg-dark text-light" style="min-width: 20em;">
           <form class="px-4 py-3">
             <div class="form-group">
@@ -49,8 +49,8 @@
             </div>
             <button type="submit" class="btn btn-primary">送信</button>
           </form>
-        </div><!-- /.dropdown-menu -->
-      </li>
+        </div>!- /.dropdown-menu -
+      </li-->
     </ul>
   </div>
 </template>
