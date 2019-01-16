@@ -55,233 +55,237 @@
   </div>
   <div class="mw-100 w-100 mhv-100 hv-100 of-hidden d-flex flex-column">
     <div class="sidebar-wrapper">
-      <!-- Sidebar1  -->
-      <nav class="sidebar bg-secondary simple always" id="menu">
-        <mirai-menu v-bind:user="user"></mirai-menu>
-      </nav>
-      <!-- Sidebar3  -->
-      <nav class="sidebar bg-dark floating-2 shadow" id="filetree">
-        <mirai-file-tree v-bind:user="user"></mirai-file-tree>
-      </nav>
-      <!-- Sidebar2  -->
-      <nav class="sidebar bg-dark none-toggle of-y-auto floating-2 shadow" id="headline">
-        <div class="sticky-top of-y-auto mhp-100 hp-100">
-          <ul class="list-unstyled">
-            <li>
-              <div class="btn-group dropdown w-100">
-                <a href="#header1" class="nav-link text-light w-100">
-                  <i class="oi oi-header"></i>
-                  機能一覧
-                </a>
-                <a href="#pageSubmenu4" class="text-light dropdown-toggle dropdown-toggle-split open"
-                  role="button" data-toggle="collapse" aria-expanded="false"></a>
-              </div>
-              <ul class="collapse list-unstyled" id="pageSubmenu4" data-parent=".sidebar">
-                <li><a href="#header1-1" class="nav-link text-light">
-                  <i class="oi oi-header"></i>
-                  積層サイドバー
-                </a></li>
-                <li><a href="#header1-2" class="nav-link text-light">
-                  <i class="oi oi-header"></i>
-                  簡略表示
-                </a></li>
-                <li><a href="#header1-3" class="nav-link text-light">
-                  <i class="oi oi-header"></i>
-                  常に表示
-                </a></li>
-                <li><a href="#header1-4" class="nav-link text-light">
-                  <i class="oi oi-header"></i>
-                  サブメニュー
-                </a></li>
-                <li>
-                  <div class="btn-group dropright w-100">
-                    <a href="#header1-5" class="nav-link text-light w-100">
-                      <i class="oi oi-header"></i>
-                      表示切り替え
-                    </a>
-                    <a href="#" class="text-light dropdown-toggle dropdown-toggle-split"
-                      role="button" data-toggle="dropdown" aria-haspopup="true"
-                      aria-expanded="false" data-flip="false" data-offset="-21,-2"></a>
-                    <ul class="dropdown-menu bg-dark" data-parent=".sidebar">
-                      <li><a href="#header1-5-1" class="nav-link text-light">
+      <div class="sidebar-wrapper" id="sidebar">
+        <!-- Sidebar1  -->
+        <nav class="sidebar bg-secondary simple always" id="menu">
+          <mirai-menu v-bind:user="user"></mirai-menu>
+        </nav>
+        <!-- Sidebar3  -->
+        <nav class="sidebar bg-dark floating-2" id="filetree" v-bind:class="{ 'none-toggle' : !gtoken }">
+          <mirai-file-tree v-bind:user="user"></mirai-file-tree>
+        </nav>
+        <!-- Sidebar2  -->
+        <nav class="sidebar bg-dark none-toggle of-y-auto floating-2" id="headline">
+          <div class="sticky-top of-y-auto mhp-100 hp-100">
+            <ul class="list-unstyled">
+              <li>
+                <div class="btn-group dropdown w-100">
+                  <a href="#header1" class="nav-link text-light w-100">
+                    <i class="oi oi-header"></i>
+                    機能一覧
+                  </a>
+                  <a href="#pageSubmenu4" class="text-light dropdown-toggle dropdown-toggle-split open"
+                    role="button" data-toggle="collapse" aria-expanded="false"></a>
+                </div>
+                <ul class="collapse list-unstyled" id="pageSubmenu4" data-parent=".sidebar">
+                  <li><a href="#header1-1" class="nav-link text-light">
+                    <i class="oi oi-header"></i>
+                    積層サイドバー
+                  </a></li>
+                  <li><a href="#header1-2" class="nav-link text-light">
+                    <i class="oi oi-header"></i>
+                    簡略表示
+                  </a></li>
+                  <li><a href="#header1-3" class="nav-link text-light">
+                    <i class="oi oi-header"></i>
+                    常に表示
+                  </a></li>
+                  <li><a href="#header1-4" class="nav-link text-light">
+                    <i class="oi oi-header"></i>
+                    サブメニュー
+                  </a></li>
+                  <li>
+                    <div class="btn-group dropright w-100">
+                      <a href="#header1-5" class="nav-link text-light w-100">
                         <i class="oi oi-header"></i>
-                        xs以上
-                      </a></li>
-                      <li><a href="#header1-5-2" class="nav-link text-light">
-                        <i class="oi oi-header"></i>
-                        xs未満
-                      </a></li>
-                    </ul>
-                  </div>
-                </li>
-                <li><a href="#header1-6" class="nav-link text-light">
-                  <i class="oi oi-header"></i>
-                  表示切り替え（xs以下）
-                </a></li>
-                <li><a href="#header1-7" class="nav-link text-light">
-                  <i class="oi oi-header"></i>
-                  パンくずリストは上部に固定
-                </a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="#header2" class="nav-link text-light">
-                <i class="oi oi-header"></i>
-                開発方針
-              </a>
-            </li>
-            <li>
-              <a href="#header3" class="nav-link text-light">
-                <i class="oi oi-header"></i>
-                ライブラリ
-              </a>
-            </li>
-            <li>
-              <a href="#header4" class="nav-link text-light">
-                <i class="oi oi-header"></i>
-                推奨環境
-              </a>
-            </li>
-            <li>
-              <a href="#header5" class="nav-link text-light">
-                <i class="oi oi-header"></i>
-                開発環境
-              </a>
-            </li>
-            <li>
-              <a href="#header6" class="nav-link text-light">
-                <i class="oi oi-header"></i>
-                今後の予定
-              </a>
-            </li>
-            <li>
-              <a href="#header7" class="nav-link text-light">
-                <i class="oi oi-header"></i>
-                連絡先
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-      <!-- Page Content  -->
-      <main class="sidebar-content of-hidden mhv-100 hv-100 mw-100 m-0 p-0">
-        <!-- デフォルトだと#appはvue.jsが有効 -->
-        <div id="app" style="display: none;">
-          <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-            <div class="container">
-              <a class="navbar-brand" href="{{ url('/') }}">
-                  {{ config('app.name', 'Laravel') }}
-              </a>
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                  <span class="navbar-toggler-icon"></span>
-              </button>
-
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <!-- Left Side Of Navbar -->
-                <ul class="navbar-nav mr-auto">
-                    
-                </ul>
-                <!-- Right Side Of Navbar -->
-                <ul class="navbar-nav ml-auto">
-                  <!-- Top Links -->
-                  @if (Route::has('login'))
-                      @auth
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/home') }}">{{ __('Home') }}</a>
-                        </li>
-                      @else
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/') }}">{{ __('Welcome') }}</a>
-                        </li>
-                      @endauth
-                  @endif
-                  <!-- Authentication Links -->
-                  @guest
-                      <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                      </li>
-                      <li class="nav-item">
-                        @if (Route::has('register'))
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                        @endif
-                      </li>
-                  @else
-                    <li class="nav-item dropdown">
-                      <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                        {{ Auth::user()->name }} <span class="caret"></span>
+                        表示切り替え
                       </a>
+                      <a href="#" class="text-light dropdown-toggle dropdown-toggle-split"
+                        role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false" data-flip="false" data-offset="-21,-2"></a>
+                      <ul class="dropdown-menu bg-dark" data-parent=".sidebar">
+                        <li><a href="#header1-5-1" class="nav-link text-light">
+                          <i class="oi oi-header"></i>
+                          xs以上
+                        </a></li>
+                        <li><a href="#header1-5-2" class="nav-link text-light">
+                          <i class="oi oi-header"></i>
+                          xs未満
+                        </a></li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li><a href="#header1-6" class="nav-link text-light">
+                    <i class="oi oi-header"></i>
+                    表示切り替え（xs以下）
+                  </a></li>
+                  <li><a href="#header1-7" class="nav-link text-light">
+                    <i class="oi oi-header"></i>
+                    パンくずリストは上部に固定
+                  </a></li>
+                </ul>
+              </li>
+              <li>
+                <a href="#header2" class="nav-link text-light">
+                  <i class="oi oi-header"></i>
+                  開発方針
+                </a>
+              </li>
+              <li>
+                <a href="#header3" class="nav-link text-light">
+                  <i class="oi oi-header"></i>
+                  ライブラリ
+                </a>
+              </li>
+              <li>
+                <a href="#header4" class="nav-link text-light">
+                  <i class="oi oi-header"></i>
+                  推奨環境
+                </a>
+              </li>
+              <li>
+                <a href="#header5" class="nav-link text-light">
+                  <i class="oi oi-header"></i>
+                  開発環境
+                </a>
+              </li>
+              <li>
+                <a href="#header6" class="nav-link text-light">
+                  <i class="oi oi-header"></i>
+                  今後の予定
+                </a>
+              </li>
+              <li>
+                <a href="#header7" class="nav-link text-light">
+                  <i class="oi oi-header"></i>
+                  連絡先
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+      <div class="sidebar-wrapper mw-100 w-100">
+        <!-- Page Content  -->
+        <main class="sidebar-content of-hidden mhv-100 hv-100 mw-100 m-0 p-0">
+          <!-- デフォルトだと#appはvue.jsが有効 -->
+          <div id="app" style="display: none;">
+            <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+              <div class="container">
+                <a class="navbar-brand" href="{{ url('/') }}">
+                    {{ config('app.name', 'Laravel') }}
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                        onclick="event.preventDefault();
-                                        document.getElementById('logout-form').submit();">
-                          {{ __('Logout') }}
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <!-- Left Side Of Navbar -->
+                  <ul class="navbar-nav mr-auto">
+                      
+                  </ul>
+                  <!-- Right Side Of Navbar -->
+                  <ul class="navbar-nav ml-auto">
+                    <!-- Top Links -->
+                    @if (Route::has('login'))
+                        @auth
+                          <li class="nav-item">
+                              <a class="nav-link" href="{{ url('/home') }}">{{ __('Home') }}</a>
+                          </li>
+                        @else
+                          <li class="nav-item">
+                              <a class="nav-link" href="{{ url('/') }}">{{ __('Welcome') }}</a>
+                          </li>
+                        @endauth
+                    @endif
+                    <!-- Authentication Links -->
+                    @guest
+                        <li class="nav-item">
+                          <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        </li>
+                        <li class="nav-item">
+                          @if (Route::has('register'))
+                              <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                          @endif
+                        </li>
+                    @else
+                      <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                          {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
 
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                          @csrf
-                        </form>
-                      </div>
-                    </li>
-                  @endguest
-                </ul>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="{{ route('logout') }}"
+                          onclick="event.preventDefault();
+                                          document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                          </a>
+
+                          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                          </form>
+                        </div>
+                      </li>
+                    @endguest
+                  </ul>
+                </div>
               </div>
-            </div>
-          </nav>
-          <main class="py-4">
-              @yield('content')
-          </main>
-        </div>
-        <div id="edit-section" class="m-0 mw-100" style="max-height: calc(100% - 16px);"></div>
-      </main>
-      <nav class="sidebar bg-light simple always mini">
-        <div class="sticky-top">
-          <ul class="list-unstyled">
-            <li>
-              <a href="#" class="text-dark" id="link-slide-mode" data-url="revealjs/revealjs.html" data-target="#slide-modal">
-                <i class="mdi mdi-presentation"></i>
-                Slide Mode
-              </a>
-            </li>
-            <li>
-              <a href="#" class="text-dark active">
-                <i class="oi oi-heart"></i>
-                Love
-              </a>
-            </li>
-            <li>
-              <a href="#" class="text-dark">
-                <i class="oi oi-bold"></i>
-                Bold
-              </a>
-            </li>
-            <li>
-              <a href="#" class="text-dark">
-                <i class="oi oi-italic"></i>
-                Italic
-              </a>
-            </li>
-            <li>
-              <a href="#" class="text-dark">
-                <i class="oi oi-check"></i>
-                Check
-              </a>
-            </li>
-            <li>
-              <a href="#" class="text-dark">
-                <i class="oi oi-code"></i>
-                Code
-              </a>
-            </li>
-            <li>
-              <a href="#" class="text-dark">
-                <i class="oi oi-grid-three-up"></i>
-                Grid
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
+            </nav>
+            <main class="py-4">
+                @yield('content')
+            </main>
+          </div>
+          <div id="edit-section" class="m-0 mw-100" style="max-height: calc(100% - 16px);"></div>
+        </main>
+        <nav class="sidebar bg-light simple always mini">
+          <div class="sticky-top">
+            <ul class="list-unstyled">
+              <li>
+                <a href="#" class="text-dark" id="link-slide-mode" data-url="revealjs/revealjs.html" data-target="#slide-modal">
+                  <i class="mdi mdi-presentation"></i>
+                  Slide Mode
+                </a>
+              </li>
+              <!--li>
+                <a href="#" class="text-dark active">
+                  <i class="oi oi-heart"></i>
+                  Love
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-dark">
+                  <i class="oi oi-bold"></i>
+                  Bold
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-dark">
+                  <i class="oi oi-italic"></i>
+                  Italic
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-dark">
+                  <i class="oi oi-check"></i>
+                  Check
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-dark">
+                  <i class="oi oi-code"></i>
+                  Code
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-dark">
+                  <i class="oi oi-grid-three-up"></i>
+                  Grid
+                </a>
+              </li-->
+            </ul>
+          </div>
+        </nav>
+      </div>
     </div>
     <div class="sidebar-fotter bg-info mw-100 w-100 d-flex flex-row justify-content-between">
       <div class="flex-shrink-0 text-left pl-2 text-light">{{ __('Welcome!!!') }}</div>

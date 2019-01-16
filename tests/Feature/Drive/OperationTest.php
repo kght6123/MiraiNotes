@@ -100,7 +100,7 @@ class OperationTest extends LoginTest
         $response->assertStatus(200);
     }
     /**
-     * create file.
+     * create dir.
      * @return void
      */
     public function testCreateDir() {

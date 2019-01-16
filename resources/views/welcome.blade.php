@@ -16,7 +16,7 @@
             <a href="https://github.com/laravel/laravel">GitHub</a>
         </div>
     </div>
-    <!-- example-component はLaravelに入っているサンプルのコンポーネント -->
-    <example-component></example-component>
+    <!-- example-component はLaravelに入っているサンプルのコンポーネント
+    <example-component></example-component> -->
 </div>
 @endsection
