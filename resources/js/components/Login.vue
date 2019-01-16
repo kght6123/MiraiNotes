@@ -40,9 +40,9 @@
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">閉じる</button>
-          <button class="form-control btn btn-primary" type="button" v-on:click="login" v-bind:class="{ 'is-invalid': errors.has('notification') || errors.has('regist_error'), 'd-none': user }">ログイン</button>
+          <button class="btn btn-primary" type="button" v-on:click="login" v-bind:class="{ 'is-invalid': errors.has('notification') || errors.has('regist_error'), 'd-none': user }">ログイン</button>
           <button class="btn btn-secondary" type="button" v-on:click="unregist" v-bind:class="{ 'd-none': !user }">ユーザ消去</button>
-          <button class="form-control btn btn-primary" type="button" v-on:click="logout" v-bind:class="{ 'd-none': !user }">ログアウト</button>
+          <button class="btn btn-primary" type="button" v-on:click="logout" v-bind:class="{ 'd-none': !user }">ログアウト</button>
           <span class="invalid-tooltip" v-show="errors.has('notification')">入力エラーがあります。</span>
           <span class="invalid-tooltip" v-show="errors.has('regist_error')">@{{ errors.first('regist_error') }}</span>
         </div>

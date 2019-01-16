@@ -17,9 +17,9 @@
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">閉じる</button>
-          <button class="form-control btn btn-primary" type="button" v-if="code" v-on:click="auth" v-bind:class="{ 'is-invalid': errors.has('code') }">認証コード入力</button>
-          <button class="form-control btn btn-primary" type="button" v-if="!code && (authUrl || reAuthUrl)" v-on:click="open">認証画面を開く</button>
-          <button class="form-control btn btn-primary" type="button" v-if="!code && gtoken && !reAuthUrl" v-on:click="reauth">再認証する</button>
+          <button class="btn btn-primary" type="button" v-if="code" v-on:click="auth" v-bind:class="{ 'is-invalid': errors.has('code') }">認証コード入力</button>
+          <button class="btn btn-primary" type="button" v-if="!code && (authUrl || reAuthUrl)" v-on:click="open">認証画面を開く</button>
+          <button class="btn btn-primary" type="button" v-if="!code && gtoken && !reAuthUrl" v-on:click="reauth">再認証する</button>
         </div>
       </div>
     </div>
