@@ -31,7 +31,8 @@ window.Vue.use(Vuex);
 window.Vue.use(VeeValidate);
 
 // use axios
-import { axios } from './axios-base';
+import { axios } from './axios/axios-base';
+import { out_console } from './axios/axios-errors';
 
 // Add a request interceptor
 axios.interceptors.request.use(
@@ -124,7 +125,7 @@ const findDelegateMarkdown = function() {
 import { editor } from './editor';
 
 // use main store
-import mainStore from './store/main';
+import mainStore from './store/storeopt-main';
 export const store = new Vuex.Store(mainStore);
 
 // set editor
@@ -157,7 +158,7 @@ store.watch(function(state, getter){
         }
       }.bind(this))// thisを使う
       .catch(function(error) {
-        console.log('ERROR!! occurred in Backend. (login, drive/auth)', error);
+        out_console(error, 'login, drive/auth');
       }.bind(this));// thisを使う
     
   } else {
@@ -167,25 +168,10 @@ store.watch(function(state, getter){
 }, {immediate: true, deep: true});
 
 import miraiMenu from './components/MenuSidebar.vue';
-const menu = new Vue({
-  el: '#menu',
-  store: store,
-  computed: {
-    user: {
-      get () {
-        return this.$store.state.user;
-      },
-      set (value) {
-        this.$store.dispatch('setUser', value);
-      }
-    },
-  },
-  components: { miraiMenu },
-});
-
 import miraiFileTree from './components/FileTreeSidebar.vue';
-const filetree = new Vue({
-  el: '#filetree',
+
+const sidebar = new Vue({
+  el: '#sidebar',
   store: store,
   computed: {
     user: {
@@ -196,8 +182,13 @@ const filetree = new Vue({
         this.$store.dispatch('setUser', value);
       }
     },
+    gtoken: {
+      get () {
+        return this.$store.getters.gtoken;
+      }
+    },
   },
-  components: { miraiFileTree },
+  components: { miraiMenu, miraiFileTree },
 });
 
 import miraiLogin from './components/Login.vue';
@@ -259,21 +250,21 @@ const auth = new Vue({
 
 $(function(){
   // haloContext 右クリックメニューを表示 _pthisや_peで右クリックされた要素を特定
-  $('#filetree li').haloContext({
-    bindings : [
-      { label : "Heart0", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('0:'+$(_pe.target).html()); } },
-      { label : "Heart1", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('1:'+$(_pe.target).html()); } },
-      { label : "Heart2", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('2:'+$(_pe.target).html()); } },
-      { label : "Heart3", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('3:'+$(_pe.target).html()); } },
-      { label : "Heart4", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('4:'+$(_pe.target).html()); } },
-      { label : "Heart5", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('5:'+$(_pe.target).html()); } },
-      { label : "Heart6", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('6:'+$(_pe.target).html()); } },
-      { label : "Heart7", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('7:'+$(_pe.target).html()); } },
-      { label : "Heart8", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('8:'+$(_pe.target).html()); } },
-      { label : "Heart9", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('9:'+$(_pe.target).html()); } },
-    ],
-    options : {}
-  });
+  // $('#filetree li').haloContext({
+  //   bindings : [
+  //     { label : "Heart0", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('0:'+$(_pe.target).html()); } },
+  //     { label : "Heart1", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('1:'+$(_pe.target).html()); } },
+  //     { label : "Heart2", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('2:'+$(_pe.target).html()); } },
+  //     { label : "Heart3", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('3:'+$(_pe.target).html()); } },
+  //     { label : "Heart4", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('4:'+$(_pe.target).html()); } },
+  //     { label : "Heart5", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('5:'+$(_pe.target).html()); } },
+  //     { label : "Heart6", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('6:'+$(_pe.target).html()); } },
+  //     { label : "Heart7", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('7:'+$(_pe.target).html()); } },
+  //     { label : "Heart8", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('8:'+$(_pe.target).html()); } },
+  //     { label : "Heart9", iconClassNames : "oi oi-heart", onclick : function(_e, _pthis, _pe) { alert('9:'+$(_pe.target).html()); } },
+  //   ],
+  //   options : {}
+  // });
   $('#slide-modal .close').on('click', function(){
     findDelegateMarkdown();
   });
