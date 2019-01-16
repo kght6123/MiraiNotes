@@ -1,5 +1,6 @@
 
 import * as types from './mutation-types';
+import { out_console } from '../axios/axios-errors';
 
 export default {
   state: {
@@ -7,6 +8,7 @@ export default {
     editor: null,
     authUrl: null,
     gtoken: null,
+    viewDriveFileId: null,
   },
   // Storeに対するGetterを定義
   getters: {
@@ -31,6 +33,7 @@ export default {
      // Actionは基本、mutationsを呼ぶ
     setUser (context, user) {
       context.commit(types.SET_USER, user);
+      context.commit(types.SET_VIEW_DRIVE_FILE_ID, null);
       context.commit(types.SET_MARKDOWN, user ? user.markdown : "");
       context.commit(types.SET_GTOKEN, user ? user.gtoken : "");
     },
@@ -51,6 +54,9 @@ export default {
     },
     setAuthUrl (context, authUrl) {
       context.commit(types.SET_AUTH_URL, authUrl);
+    },
+    setViewDriveFileId (context, viewDriveFileId) {
+      context.commit(types.SET_VIEW_DRIVE_FILE_ID, viewDriveFileId);
     },
   },
   mutations: {
@@ -81,14 +87,32 @@ export default {
       state.editor = editor;
     },
     [types.UPDATE_MARKDOWN] (state) {
-      if (state.user)
+      if (state.viewDriveFileId) {
+        axios.put('/api/drive/'+state.viewDriveFileId, /*{
+          params: */{
+            fields: "id",
+            data: state.editor.getMarkdown(),
+            web: true }/*}*/ )
+          .then(function(response) {
+            //console.log(response);
+            //alert(JSON.stringify(response.data));
+        }.bind(this))// thisを使う
+        .catch(function(error) {
+          out_console(error, 'drive, drive/update/data');
+        }.bind(this));// thisを使う
+      } else if (state.user)
         state.user.markdown = state.editor.getMarkdown();
     },
     [types.SET_MARKDOWN] (state, markdown) {
+      console.log(markdown);
+      console.log(state.editor);
       state.editor.setMarkdown(markdown, false/*cursorToEndopt*/);
     },
     [types.SET_AUTH_URL] (state, authUrl) {
       state.authUrl = authUrl;
-    }
+    },
+    [types.SET_VIEW_DRIVE_FILE_ID] (state, viewDriveFileId) {
+      state.viewDriveFileId = viewDriveFileId;
+    },
   },
 }
