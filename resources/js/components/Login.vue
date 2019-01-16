@@ -54,6 +54,7 @@
 <script>
 // import js-cookie
 import Cookies from 'js-cookie';
+import { out_console } from '../axios/axios-errors';
 
 export default {
   created() {
@@ -124,7 +125,8 @@ export default {
             }
           }.bind(this))// thisを使う
           .catch(function(error) {
-            console.log('ERROR!! occurred in Backend. (register)', error);
+            out_console(error, 'user, register');
+
             // errorを展開する alert(error.response.data.errors.email[0]);
             Object.keys(error.response.data.errors).forEach(function(errorObjKey){
               error.response.data.errors[errorObjKey].forEach(function(errorObj, index, ar){
@@ -147,7 +149,7 @@ export default {
             }
           }.bind(this))// thisを使う
           .catch(function(error) {
-            console.log('ERROR!! occurred in Backend. (login)', error);
+            out_console(error, 'user, login');
           }.bind(this));// thisを使う
       }
     },
@@ -163,7 +165,7 @@ export default {
           }
         }.bind(this))// thisを使う
         .catch(function(error) {
-          console.log('ERROR!! occurred in Backend. (logout)', error);
+          out_console(error, 'user, logout');
         }.bind(this));// thisを使う
     },
     unregist: function() {
@@ -178,7 +180,7 @@ export default {
           }
         }.bind(this))// thisを使う
         .catch(function(error) {
-          console.log('ERROR!! occurred in Backend. (unregister)', error);
+          out_console(error, 'user, unregister');
         }.bind(this));// thisを使う
     }
   },
