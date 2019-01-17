@@ -102,7 +102,9 @@ reveal.jsベースのスライドショーモードです。
 * [ ] 目次をツリー表示する機能を追加
 * [ ] Edge、Chrome対応
 * [ ] 英語対応
-* [ ] Docker対応
+* [x] Docker対応
+* [ ] credentials.jsonの登録機能を追加
+* [ ] Dockerfile 外部ファイル不要化
 
 ## 検証環境
 
@@ -110,7 +112,9 @@ http://notes.kght6123.jp/
 
 動作やデータの保証が出来ず、Google認証数が最大100回に制限されるのでご注意ください。
 
-## Google 認証情報の作成
+## セットアップ
+
+### Google 認証情報の作成
 
 Googleログインする為には、OAuth2.0の認証情報が必要です。
 
@@ -118,9 +122,24 @@ Googleログインする為には、OAuth2.0の認証情報が必要です。
 
 認証情報ファイルのアプリケーション種別は「その他」とし、認証回数が100回に制限されることに注意してください。
 
-認証情報ファイルは「credentials.json」に変更し、プロジェクトのルートに保管してください。
+認証情報のファイル名を「credentials.json」に変更して利用します。
 
-## セットアップ
+### Docker
+
+Docker、Docker Composeを使う方法です。
+
+「「credentials.json」は「/docker/nginx」に保管してください。
+
+```sh
+git clone https://github.com/kght6123/MiraiNotes.git
+cd MiraiNotes
+docker-compose build
+docker-compose up -d
+```
+
+ブラウザで、http://127.0.0.1:8080/ にアクセスして、動作を確認してください。
+
+### レンタルサーバ向け
 
 さくらのレンタルサーバのスタンダードプラン向けのサブドメインを使う方法です。（2019年1月16日現在）
 
@@ -128,9 +147,9 @@ Googleログインする為には、OAuth2.0の認証情報が必要です。
 
 必要に応じて、SSL（https）の設定も行ってください。
 
+「「credentials.json」は、プロジェクトのルートに保管してください。
+
 ```sh
-# node.jsのビルド。ローカル環境で実施し、Githubにコミット（masterへ実施済み）
-$ yarn run production
 # 初期ドメインへ接続、FTPアカウント名＋サーバパスワードでログイン
 $ ssh FTPアカウント名@初期ドメイン
 
@@ -196,13 +215,13 @@ yarn run production
 
 ブラウザで、https://追加したサブドメイン/ にアクセスして、動作を確認してください。
 
-## 開発
+## 開発に関わる参考情報
 
 ローカルで動作させる場合は、.envの「APP_URL」と「MIX_APP_URL」を http://127.0.0.1:8000 にしてください
 
-下記は、開発時に利用を想定しているコマンド集です。
+下記は、開発時によく利用したコマンド集です。参考に記載いたします。
 
-```sh
+```bash
 # run frontend
 yarn run hot
 # run backend
@@ -232,6 +251,23 @@ yarn upgrade-interactive
 # update for composer
 composer self-update
 composer update
+# docker build
+docker-compose build
+# docker up/down
+docker-compose up -d
+docker-compose down
+# docker start/stop
+docker-compose start
+docker-compose stop
+# docker ps
+docker-compose ps
+# docker logs
+docker logs laravel-nginx
+# docker exec
+docker exec -it laravel-nginx sh
+# docker cp from to
+docker cp laravel-nginx:/etc/php7/php-fpm.d/www.conf ./docker/nginx
+docker cp laravel-nginx:/etc/php7/php-fpm.conf ./docker/nginx
 ```
 
 ## ライセンス

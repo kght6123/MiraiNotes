@@ -10,8 +10,8 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-.env
+/.env
 .phpunit.result.cache
-credentials*.json
-token.json
-id.json
+/credentials*.json
+/token.json
+/id.json
