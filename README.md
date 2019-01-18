@@ -131,7 +131,7 @@ Googleログインする為には、OAuth2.0の認証情報が必要です。
 
 Docker、Docker Composeを使う方法です。
 
-「「credentials.json」は「/docker/nginx」に保管してください。
+事前にGoogle認証情報（credentials.json）を「/docker/nginx」に保管してください。
 
 ```sh
 git clone https://github.com/kght6123/MiraiNotes.git
@@ -150,7 +150,7 @@ docker-compose up -d
 
 必要に応じて、SSL（https）の設定も行ってください。
 
-「「credentials.json」は、プロジェクトのルートに保管してください。
+「credentials.json」は、プロジェクトのルートに保管してください。
 
 ```sh
 # 初期ドメインへ接続、FTPアカウント名＋サーバパスワードでログイン
