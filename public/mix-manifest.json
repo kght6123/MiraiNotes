@@ -41,7 +41,5 @@
     "/plugin/search/search.js": "/plugin/search/search.js",
     "/plugin/search/search.min.js": "/plugin/search/search.min.js",
     "/plugin/zoom-js/zoom.js": "/plugin/zoom-js/zoom.js",
-    "/plugin/zoom-js/zoom.min.js": "/plugin/zoom-js/zoom.min.js",
-    "/js/app.9a34fe3bfb18ca03656e.hot-update.js": "/js/app.9a34fe3bfb18ca03656e.hot-update.js",
-    "/js/app.9dce457236614f0be24d.hot-update.js": "/js/app.9dce457236614f0be24d.hot-update.js"
+    "/plugin/zoom-js/zoom.min.js": "/plugin/zoom-js/zoom.min.js"
 }
